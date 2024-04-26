@@ -63,9 +63,9 @@ class Analyticsfunction:
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
                 "max_tokens": 700,
-                "temperature": 0.8,
+                "temperature": 0.9,
                 "top_k": 250,
-                "top_p": 0.8,
+                "top_p": 0.9,
                 "messages": [
                     {
                         "role": "user",
@@ -104,3 +104,25 @@ def extract_python_code(input_text, output_file):
     with open(output_file, 'w') as f:
         for code_block in python_blocks:
             f.write(code_block.strip() + '\n\n')
+
+            
+def detect_shape(question):
+    prompt = f'''Human: find out the math image shape from question
+    some example of question and asnwer is given below
+    if there the two word in shape then add  underscore
+    question = "ABCDEF is a hexagon (six-sided polygon). Find the value of AB+BC+CD+DE+AF+FE+AE "
+    answer = "hexagom"
+    
+    question = "If the adjacent sides of a parallelogram are 3i+2j and -i+4j+2k, find the area of the   parallelogram."
+    answer = "parallelogram"
+    
+
+    <question>
+    {question}
+    </question>
+    please answer only the type of shape
+
+    Assistant:'''
+
+    text = claude3(prompt) 
+    return text
