@@ -1,0 +1,33 @@
+Here is a summary of the document in around 1000 words:
+
+The document is a transcript of an online lecture on 3D coordinate geometry. The key points covered are:
+
+Introduction to 3D Coordinate Geometry
+- Just like in 2D coordinate geometry, in 3D we have coordinates to represent the position of a point, but now we need three coordinates (x, y, z) instead of two. 
+- The three coordinate axes are x, y and z axes, perpendicular to each other.
+- The coordinates of a point P are written as (x, y, z) where x is the perpendicular distance from yz-plane, y is the perpendicular distance from xz-plane and z is the perpendicular distance from xy-plane.
+
+Distance Formula in 3D
+- The distance between two points A(x1, y1, z1) and B(x2, y2, z2) is given by:
+√[(x2-x1)2 + (y2-y1)2 + (z2-z1)2]
+
+Section Formula and Ratio Formula
+- To find the ratio in which a line segment is divided by a plane Ax + By + Cz + D = 0, the formula is: 
+(Ax1 + By1 + Cz1 + D) : (Ax2 + By2 + Cz2 + D)
+- Internal and external division point formulas are derived using this ratio.
+
+Mid-Point Formula
+- The mid-point M of the line segment joining A(x1, y1, z1) and B(x2, y2, z2) has coordinates:
+M = ((x1+x2)/2, (y1+y2)/2, (z1+z2)/2)  
+
+Centroid
+- The centroid (center of mass) of a triangle with vertices A(x1,y1,z1), B(x2,y2,z2), C(x3,y3,z3) has coordinates:
+((ax1 + bx2 + cx3)/(a+b+c), (ay1 + by2 + cy3)/(a+b+c), (az1 + bz2 + cz3)/(a+b+c))
+where a, b, c are the lengths of the sides opposite A, B, C respectively.
+
+- For a tetrahedron with vertices A, B, C, D, the centroid formula is:
+((ax1 + bx2 + cx3 + dx4)/(a+b+c+d), ...similarly for y and z coordinates)
+
+The lecture also covered some examples and practice questions related to finding coordinates satisfying colinearity conditions, finding the fourth vertex of a parallelogram given three consecutive vertices, and using the formulas learned.
+
+Overall, the key formulas and concepts of 3D coordinate geometry like distance formula, section formula, mid-point formula, centroid were explained in detail using examples. The similarity to 2D coordinate geometry concepts was also highlighted.

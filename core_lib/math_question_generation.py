@@ -67,7 +67,7 @@ class Analyticsfunction:
         self.question = question
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 2000,
+                "max_tokens": 3000,
                 "temperature": 0.9,
                 "top_k": 250,
                 "top_p": 0.9,
@@ -145,7 +145,7 @@ class mathquestion(Analyticsfunction):
         <question>
         {self.question}
         </question>
-        please answer only the type of shape like hexagon, circle. plane, line 
+        please answer only the type of shape example of shape like hexagon, traingle, circle. plane, line 
         response must be one word only
 
         Assistant:'''
@@ -158,18 +158,15 @@ class mathquestion(Analyticsfunction):
     def create_image(self, question):
         self.question = question
         shape  = self.detect_shape(self.question)
-        prompt = f'''Human: write python code to draw {shape} using Seaborn visualisation
+        prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using python seaborn library for visualisation
                     1. Save plot as {shape}.jpg, plot context/question at top.create small image
                     2. context into the image at top. 
-                    3. draw correct shape
-                    4. complete all edges and align properly
-                    5. Label each edge or component with alphabets (e.g., A, B, etc.) for better understanding.
-                    6. must import all necessary library in the output
-
-                    <question>
-                    {question}
-                    </question>
-
+                    3. draw correct shape for {shape}
+                    4. complete all edges and align properly for {shape}
+                    5. Label each edge with (e.g., A, B, etc.) for better understanding.
+                    6. import all necessary libraries and functions.
+                    7. write code to draw {shape}
+    
                     Assistant:'''
      
    
@@ -183,7 +180,7 @@ class mathquestion(Analyticsfunction):
         time.sleep(3)
         #display(Markdown(text))
         os.system("python3 main.py")
-        time.sleep(5)
+        time.sleep(3)
           # Wait for 5 seconds to allow the image to be generated
         img = mpimg.imread(image+".jpg")
         # Display the image
@@ -212,7 +209,7 @@ class mathquestion(Analyticsfunction):
     
     def question_answer_generation(self, note):
         self.note = note
-        text = self.call_claude_sonet_text( self.note)
+        text = self.call_claude_sonet_text(self.note)
         display(Markdown(text))
         return text
     
@@ -220,7 +217,7 @@ class mathquestion(Analyticsfunction):
     def create_summary(self, note):
         self.note = note
 
-        prompt = f'''Human: create summary of the document in 500 words.
+        prompt = f'''Human: create summary of the document in 1000 words.
         <book>
         {self.note}
         </book>

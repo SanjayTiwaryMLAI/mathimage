@@ -1,0 +1,48 @@
+
+Challenges in Creating Math Images
+
+The key challenges in creating mathematical images for the edtech customer were:
+1. Generating accurate, small images of shapes like triangles and circles to match the textual questions and solutions.
+ This required precision in plotting the shapes to represent the mathematical concepts properly. 
+ 
+2. Presenting the questions and solutions in Hindi language, in addition to the visual elements. 
+Translating the textual content into Hindi increased complexity.
+
+3. Ensuring tight integration between the textual questions/solutions and corresponding images. 
+The images had to visually represent the concepts stated in text, requiring coordination.
+
+4. Achieving mathematically correct visual results and depictions in the generated images.
+ As educational resources, maintaining accuracy was critical.
+
+5. Overcoming limitations in Stable Diffusion and other AI image generation models in producing such specialized math images tied to textual concepts. 
+The models fell short on handling such narrow, subject-specific image generation.
+
+Step-by-Step Approach to Solve the Problem 
+
+To address these challenges, I solved the math image generation problem through a methodical, step-by-step approach:
+
+1. Summarized entire classroom recordings in 1000 words to extract key mathematical learnings, concepts and problems.
+ This distilled knowledge became the basis for image content.
+
+2. Augmented the summaries with classroom notes to ensure no key information was missed. 
+The augmented notes gave the full picture. 
+
+3. Turned the math concepts, problems and solutions from the summaries and notes into textual question-answers pairs.
+ This gave the content foundation.
+
+4. Used Claude 3 model to algorithmically generate key mathematical shapes like triangles, circles by extracting them 
+from the question-answer text through NLP.
+
+5. Wrote a Python script that leveraged Seaborn data visualization library to programmatically create images for 
+each question-answer pair based on the extracted shapes.
+
+6. Encapsulated the image generation code into a reusable Python function for maintainability.
+
+7. Stored the programmatically generated images and displayed them alongside the matching textual content. 
+This achieved the integrated math text-image content.
+
+8. Finally, translated the entire textual content including textual questions, answers, explanations and
+ descriptions into Hindi using translation APIs/tools while retaining the images.
+
+This step-by-step, structured approach helped overcome the key challenges in generating tailored, accurate and 
+integrated math images tied to the educational text content. The process combined the powers of Claude 3, Python scripts, Seaborn and translation tools.

@@ -1,40 +1,35 @@
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Set the figure size
-plt.figure(figsize=(6, 6))
+# Define the vertex positions
+A = np.array([1, 2, 3])  # αi + βj + γk
+B = np.array([2, 3, 1])  # βi + γj + αk
+C = np.array([3, 1, 2])  # γi + αj + βk
 
-# Create a blank canvas
-ax = plt.subplot(111)
-
-# Set the context/question at the top
-question = "If the incentre of a triangle with vertices A(2, 3, 4), B(4, 5, 6), and C(6, 7, 8) is (3, 4, 5), what is the value of the ratio (a + b - c)/a, where a, b, and c are the sides of the triangle?"
-plt.text(0, 1.05, question, ha='left', va='bottom', transform=ax.transAxes, fontsize=12, wrap=True)
-
-# Define the coordinates of the triangle vertices
-A = (2, 3)
-B = (4, 5)
-C = (6, 7)
+# Create a figure and axis
+fig, ax = plt.subplots(figsize=(6, 6))
 
 # Draw the triangle
-plt.plot([A[0], B[0]], [A[1], B[1]], '-', color='black', label='A-B')
-plt.plot([B[0], C[0]], [B[1], C[1]], '-', color='black', label='B-C')
-plt.plot([C[0], A[0]], [C[1], A[1]], '-', color='black', label='C-A')
+ax.plot([A[0], B[0]], [A[1], B[1]], color='r', label='A-B')
+ax.plot([B[0], C[0]], [B[1], C[1]], color='r', label='B-C')
+ax.plot([C[0], A[0]], [C[1], A[1]], color='r', label='C-A')
 
-# Label the edges
-plt.text((A[0] + B[0]) / 2, (A[1] + B[1]) / 2, 'A', ha='center', va='center', fontsize=12)
-plt.text((B[0] + C[0]) / 2, (B[1] + C[1]) / 2, 'B', ha='center', va='center', fontsize=12)
-plt.text((C[0] + A[0]) / 2, (C[1] + A[1]) / 2, 'C', ha='center', va='center', fontsize=12)
+# Label the vertices
+ax.text(A[0], A[1], 'A', fontsize=12, ha='center', va='bottom')
+ax.text(B[0], B[1], 'B', fontsize=12, ha='center', va='bottom')
+ax.text(C[0], C[1], 'C', fontsize=12, ha='center', va='bottom')
 
-# Set the axis limits and remove ticks
-plt.xlim(0, 8)
-plt.ylim(0, 8)
-plt.xticks([])
-plt.yticks([])
+# Set axis limits and aspect ratio
+ax.set_xlim(min(A[0], B[0], C[0]) - 1, max(A[0], B[0], C[0]) + 1)
+ax.set_ylim(min(A[1], B[1], C[1]) - 1, max(A[1], B[1], C[1]) + 1)
+ax.set_aspect('equal')
+
+# Add the context/question at the top
+question = "If the position vectors of the vertices A, B, and C of a triangle \u25b3ABC are \u03b1i+\u03b2j+\u03b3k, \u03b2i+\u03b3j+\u03b1k, and \u03b3i+\u03b1j+\u03b2k respectively, then \u25b3ABC is"
+ax.text(0.5, 1.05, question, transform=ax.transAxes, ha='center', va='bottom', fontsize=10, wrap=True)
 
 # Save the plot as triangle.jpg
-plt.savefig('triangle.jpg', dpi=100, bbox_inches='tight')
-
-# Show the plot
+plt.savefig('triangle.jpg', dpi=300, bbox_inches='tight')
 plt.show()
 
