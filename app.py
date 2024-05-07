@@ -1,3 +1,4 @@
+
 import streamlit as st
 import boto3
 import os
@@ -29,56 +30,46 @@ def extract_json(response):
 
 # Sidebar
 st.sidebar.title("Options")
-option = st.sidebar.selectbox("Select an option", ["Summarization", "Q&A", "Image Generation"])
 
-# Summarization
-if option == "Summarization":
+# Text input
+st.title("Upload Input Text")
+input_text = st.file_uploader("Upload a text file", type=["txt"])
+
+if input_text is not None:
+    # Summarization
     st.title("Text Summarization")
-    text = st.text_area("Enter text to summarize")
-    if st.button("Summarize"):
-        obj = Analyticsfunction()
-        claude3 = obj.call_claude_sonet_text
-        math = mathquestion()
-        summary = math.create_summary(text)
-        st.success(summary)
+    text = input_text.read().decode('utf-8')
+    obj = Analyticsfunction()
+    claude3 = obj.call_claude_sonet_text
+    math = mathquestion()
+    summary = math.create_summary(text)
+    st.success(summary)
 
-# Q&A
-elif option == "Q&A":
+    # Q&A
     st.title("Question & Answer")
-    text = st.text_area("Enter text for Q&A")
-    if st.button("Generate Questions"):
-        obj = Analyticsfunction()
-        claude3 = obj.call_claude_sonet_text
-        math = mathquestion()
-        prompt = f'''Human: Please generate 5 multiple-choice questions and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer
-        please include question, options, answer, explanation. 
-        <book>
-        {text}
-        </book>
-        create the response in json format
+    prompt = f'''Human: Please generate 5 multiple-choice questions and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer
+    please include question, options, answer, explanation. 
+    <book>
+    {summary}
+    </book>
+    create the response in json format
 
-        Assistant:'''
-        body = json.dumps({"prompt": prompt})
-        question = math.question_answer_generation(body)
-        json_data = extract_json(question)
-        if json_data:
-            for question in json_data["questions"]:
-                st.write(f"Question: {question['question']}")
-                st.write(f"Options: {', '.join(question['options'])}")
-                st.write(f"Answer: {question['answer']}")
-                st.write(f"Explanation: {question['explanation']}")
-                st.write("---")
+    Assistant:'''
+    body = json.dumps({"prompt": prompt})
+    question = math.question_answer_generation(body)
+    json_data = extract_json(question)
+    if json_data:
+        for question in json_data["questions"]:
+            st.write(f"Question: {question['question']}")
+            st.write(f"Options: {', '.join(question['options'])}")
+            st.write(f"Answer: {question['answer']}")
+            st.write(f"Explanation: {question['explanation']}")
+            st.write("---")
 
-# Image Generation
-elif option == "Image Generation":
+    # Image Generation
     st.title("Image Generation")
-    text = st.text_area("Enter text for image generation")
-    if st.button("Generate Image"):
-        obj = Analyticsfunction()
-        claude3 = obj.call_claude_sonet_text
-        math = mathquestion()
-        math.create_image(text)
-        st.image(math.image_path)
+    math.create_image(text)
+    st.image(math.image_path)
 
 # Run the app
 if __name__ == "__main__":
@@ -92,5 +83,5 @@ if __name__ == "__main__":
     st.sidebar.markdown("""
     <small>Note: This app requires an active internet connection and may take some time to load.</small>
     """, unsafe_allow_html=True)
-    st.write("Select an option from the sidebar to get started.")
+    st.write("Upload an input text file to get started.")
     st.stop()
