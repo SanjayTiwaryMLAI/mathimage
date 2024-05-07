@@ -10,6 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import time
+import streamlit as st
 
 
 class Analyticsfunction:
@@ -183,11 +184,12 @@ class mathquestion(Analyticsfunction):
         os.system("python3 main.py")
         time.sleep(5)
           # Wait for 5 seconds to allow the image to be generated
-        img = mpimg.imread(image+".jpg")
-        # Display the image
-        plt.imshow(img)
-        plt.axis('off')  # Hide axis ticks and labels
-        plt.show()
+        img = mpimg.imread(shape+".jpg")
+        # Display the image on Streamlit UI
+        # plt.imshow(img)
+        # plt.axis('off')  # Hide axis ticks and labels
+        # plt.show()
+        st.image(img, caption=question, use_column_width=True)
 
     def getText(self, filename):
         self.filename = filename
