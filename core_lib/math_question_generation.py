@@ -68,7 +68,7 @@ class Analyticsfunction:
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
                 "max_tokens": 3000,
-                "temperature": 0.9,
+                "temperature": 0,
                 "top_k": 250,
                 "top_p": 0.9,
                 "messages": [
@@ -158,7 +158,7 @@ class mathquestion(Analyticsfunction):
     def create_image(self, question):
         self.question = question
         shape  = self.detect_shape(self.question)
-        prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using python seaborn library for visualisation
+        prompt = f'''Human: write simple python code to draw {shape} for generating image for the {question} using seaborn for visualisation
                     1. Save plot as {shape}.jpg, plot context/question at top.create small image
                     2. context into the image at top. 
                     3. draw correct shape for {shape}
@@ -166,6 +166,7 @@ class mathquestion(Analyticsfunction):
                     5. Label each edge with (e.g., A, B, etc.) for better understanding.
                     6. import all necessary libraries and functions.
                     7. write code to draw {shape}
+                    8. code should be 100% accurate
     
                     Assistant:'''
      
@@ -177,10 +178,10 @@ class mathquestion(Analyticsfunction):
         image = f'{shape}'
         output_file = "main.py"
         self.extract_python_code(text, output_file)
-        time.sleep(3)
+        time.sleep(4)
         #display(Markdown(text))
         os.system("python3 main.py")
-        time.sleep(3)
+        time.sleep(5)
           # Wait for 5 seconds to allow the image to be generated
         img = mpimg.imread(image+".jpg")
         # Display the image

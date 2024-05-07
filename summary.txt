@@ -1,33 +1,44 @@
 Here is a summary of the document in around 1000 words:
 
-The document is a transcript of an online lecture on 3D coordinate geometry. The key points covered are:
+The document is a transcript of a mathematics lecture on three-dimensional coordinate geometry. The key points covered are:
 
 Introduction to 3D Coordinate Geometry
-- Just like in 2D coordinate geometry, in 3D we have coordinates to represent the position of a point, but now we need three coordinates (x, y, z) instead of two. 
-- The three coordinate axes are x, y and z axes, perpendicular to each other.
-- The coordinates of a point P are written as (x, y, z) where x is the perpendicular distance from yz-plane, y is the perpendicular distance from xz-plane and z is the perpendicular distance from xy-plane.
+- Extension of concepts from 2D coordinate geometry to 3D
+- Coordinates of a point represented by triplets (x, y, z)
+- Three mutually perpendicular axes - X, Y, Z
 
-Distance Formula in 3D
-- The distance between two points A(x1, y1, z1) and B(x2, y2, z2) is given by:
-√[(x2-x1)2 + (y2-y1)2 + (z2-z1)2]
+Distance Formula
+- Formula to find distance between two points A(x1, y1, z1) and B(x2, y2, z2) given as:
+  √[(x2-x1)2 + (y2-y1)2 + (z2-z1)2]
+- Application to identify types of triangles (scalene, isosceles, right-angled) based on sides
 
-Section Formula and Ratio Formula
-- To find the ratio in which a line segment is divided by a plane Ax + By + Cz + D = 0, the formula is: 
-(Ax1 + By1 + Cz1 + D) : (Ax2 + By2 + Cz2 + D)
-- Internal and external division point formulas are derived using this ratio.
-
-Mid-Point Formula
-- The mid-point M of the line segment joining A(x1, y1, z1) and B(x2, y2, z2) has coordinates:
-M = ((x1+x2)/2, (y1+y2)/2, (z1+z2)/2)  
+Mid-Point Formula 
+- Coordinates of mid-point M of line segment AB given by:
+  M = ((x1+x2)/2, (y1+y2)/2, (z1+z2)/2)
 
 Centroid
-- The centroid (center of mass) of a triangle with vertices A(x1,y1,z1), B(x2,y2,z2), C(x3,y3,z3) has coordinates:
-((ax1 + bx2 + cx3)/(a+b+c), (ay1 + by2 + cy3)/(a+b+c), (az1 + bz2 + cz3)/(a+b+c))
-where a, b, c are the lengths of the sides opposite A, B, C respectively.
+- Centroid (center of mass) of a triangle with vertices A(x1,y1,z1), B(x2,y2,z2), C(x3,y3,z3) given by:
+  ((ax1+bx2+cx3)/(a+b+c), (ay1+by2+cy3)/(a+b+c), (az1+bz2+cz3)/(a+b+c))
+  where a, b, c are lengths of sides opposite A, B, C respectively
+- Extension to centroid of a tetrahedron (4 vertices)
 
-- For a tetrahedron with vertices A, B, C, D, the centroid formula is:
-((ax1 + bx2 + cx3 + dx4)/(a+b+c+d), ...similarly for y and z coordinates)
+Section Formula
+- Coordinates of point R dividing line segment AB internally/externally in ratio m1:m2 given by:
+  Internal: ((m1x2+m2x1)/(m1+m2), (m1y2+m2y1)/(m1+m2), (m1z2+m2z1)/(m1+m2))
+  External: ((m1x2-m2x1)/(m1-m2), (m1y2-m2y1)/(m1-m2), (m1z2-m2z1)/(m1-m2))
 
-The lecture also covered some examples and practice questions related to finding coordinates satisfying colinearity conditions, finding the fourth vertex of a parallelogram given three consecutive vertices, and using the formulas learned.
+Ratio of Division
+- If division is by X-axis, ratio = -(y1-y2)/(x2-x1)
+- If division is by Y-axis, ratio = -(x1-x2)/(y2-y1)  
+- If division is by Z-axis, ratio = -(x1-x2)/(z2-z1)
+- If division is by plane Ax + By + Cz + D = 0, ratio = -(Ax1+By1+Cz1+D)/(Ax2+By2+Cz2+D)
 
-Overall, the key formulas and concepts of 3D coordinate geometry like distance formula, section formula, mid-point formula, centroid were explained in detail using examples. The similarity to 2D coordinate geometry concepts was also highlighted.
+Collinearity of 3 Points
+- Condition for 3 points A(x1,y1,z1), B(x2,y2,z2), C(x3,y3,z3) to be collinear:
+  (x1-x2)/(x2-x3) = (y1-y2)/(y2-y3) = (z1-z2)/(z2-z3)
+
+Properties of Parallelograms
+- Diagonals of a parallelogram bisect each other
+- To find the 4th vertex of a parallelogram given 3 consecutive vertices, use the mid-point concept
+
+The lecture includes solved examples for finding values of variables that satisfy collinearity conditions, finding the 4th vertex of a parallelogram given 3 vertices, and explanations of formulas using diagrams drawn on the board. The instructor engages students through questioning and encourages them to solve problems step-by-step. Overall, it covers the fundamental concepts of 3D coordinate geometry in a detailed yet interactive manner.

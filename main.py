@@ -1,35 +1,55 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+from PIL import Image, ImageDraw, ImageFont
 
-# Define the vertex positions
-A = np.array([1, 2, 3])  # αi + βj + γk
-B = np.array([2, 3, 1])  # βi + γj + αk
-C = np.array([3, 1, 2])  # γi + αj + βk
+# Define the coordinates of points A and B
+x1, y1, z1 = 0, 0, 0  # A(x1, y1, z1)
+x2, y2, z2 = 4, 3, 2  # B(x2, y2, z2)
+
+# Define the ratios m1 and m2
+m1, m2 = 2, 3
+
+# Calculate the coordinates of point R
+x_R = (m1 * x2 + m2 * x1) / (m1 + m2)
+y_R = (m1 * y2 + m2 * y1) / (m1 + m2)
+z_R = (m1 * z2 + m2 * z1) / (m1 + m2)
 
 # Create a figure and axis
-fig, ax = plt.subplots(figsize=(6, 6))
+fig, ax = plt.subplots(figsize=(8, 6))
 
-# Draw the triangle
-ax.plot([A[0], B[0]], [A[1], B[1]], color='r', label='A-B')
-ax.plot([B[0], C[0]], [B[1], C[1]], color='r', label='B-C')
-ax.plot([C[0], A[0]], [C[1], A[1]], color='r', label='C-A')
+# Plot the line segment AB
+ax.plot([x1, x2], [y1, y2], [z1, z2], 'r-', linewidth=2)
 
-# Label the vertices
-ax.text(A[0], A[1], 'A', fontsize=12, ha='center', va='bottom')
-ax.text(B[0], B[1], 'B', fontsize=12, ha='center', va='bottom')
-ax.text(C[0], C[1], 'C', fontsize=12, ha='center', va='bottom')
+# Plot the points A, B, and R
+ax.scatter(x1, y1, z1, color='b', marker='o', label='A')
+ax.scatter(x2, y2, z2, color='b', marker='o', label='B')
+ax.scatter(x_R, y_R, z_R, color='g', marker='o', label='R')
 
-# Set axis limits and aspect ratio
-ax.set_xlim(min(A[0], B[0], C[0]) - 1, max(A[0], B[0], C[0]) + 1)
-ax.set_ylim(min(A[1], B[1], C[1]) - 1, max(A[1], B[1], C[1]) + 1)
-ax.set_aspect('equal')
+# Add labels to the points
+ax.text(x1 + 0.1, y1 + 0.1, z1 + 0.1, 'A', fontsize=12)
+ax.text(x2 + 0.1, y2 + 0.1, z2 + 0.1, 'B', fontsize=12)
+ax.text(x_R + 0.1, y_R + 0.1, z_R + 0.1, 'R', fontsize=12)
 
-# Add the context/question at the top
-question = "If the position vectors of the vertices A, B, and C of a triangle \u25b3ABC are \u03b1i+\u03b2j+\u03b3k, \u03b2i+\u03b3j+\u03b1k, and \u03b3i+\u03b1j+\u03b2k respectively, then \u25b3ABC is"
-ax.text(0.5, 1.05, question, transform=ax.transAxes, ha='center', va='bottom', fontsize=10, wrap=True)
+# Set axis labels and title
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('If a point R divides the line segment AB internally in the ratio m1:m2,\nwhere A(x1, y1, z1) and B(x2, y2, z2), what are the coordinates of R?')
 
-# Save the plot as triangle.jpg
-plt.savefig('triangle.jpg', dpi=300, bbox_inches='tight')
-plt.show()
+# Add a legend
+ax.legend()
+
+# Adjust the view angle
+ax.view_init(elev=30, azim=-45)
+
+# Save the plot as an image
+plt.savefig('line.jpg', dpi=300, bbox_inches='tight')
+
+# Open the image and add the context at the top
+img = Image.open('line.jpg')
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype('arial.ttf', 16)
+context = "If a point R divides the line segment AB internally in the ratio m1:m2, where A(x1, y1, z1) and B(x2, y2, z2), what are the coordinates of R?"
+draw.text((10, 10), context, font=font, fill=(0, 0, 0))
+img.save('line.jpg')
 
