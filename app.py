@@ -21,8 +21,8 @@ def create_image(question):
     math = mathquestion()
     detect_shape = math.detect_shape
     shape = detect_shape(question)
-    math = mathquestion()
-    prompt = f'''Human: write simple python code to draw {shape} for generating image for the {question} using seaborn for visualisation
+
+    prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using seaborn package
                 1. Save plot as {shape}.jpg, plot context/question at top. create small image with fixed size pixels
                 2. context into the image at top. 
                 3. draw correct shape for {shape}
@@ -37,18 +37,19 @@ def create_image(question):
     body = json.dumps({"prompt": prompt})
     text = math.call_claude_sonet_text(body)
     image_name = f'{shape}.jpg'
-    output_file = "main.py"
+    output_file = f'{shape}.py'
     math.extract_python_code(text, output_file)
-    time.sleep(4)
-    os.system(f"python3 main.py")
+    time.sleep(3)
+    os.system(f"python3 {output_file}")
     time.sleep(5)
 
     # Check if the image file exists
     if os.path.isfile(image_name):
         img = mpimg.imread(image_name)
-        st.image(img, width=200)
+        st.image(img, width=300)
     else:
         st.write(f"Error: Image file '{image_name}' not found.")
+
 
 # Function to translate text
 @st.cache_resource
@@ -76,15 +77,27 @@ st.sidebar.title("Options 🛠️")
 languages = ['en', 'hi', 'es', 'fr', 'de', 'zh', 'ja', 'ru', 'pt', 'ar']
 selected_lang = st.sidebar.selectbox("Select Language", languages, index=languages.index('en'))
 
-# Always display on Streamlit UI 📺
-st.title("Upload Input Text 📥")
-input_text = st.file_uploader("Upload a text file 📂", type=["txt"])
+num_questions = st.number_input("Enter the number of questions to generate", min_value=1, max_value=10, value=1)
+
+# # Always display on Streamlit UI 📺
+
+# # st.title("<h1 style='font-size: 30px;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
+# # import streamlit as st
+
+# import streamlit as st
+
+st.markdown("<h1 style='font-size: 30px; color: blue;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
+
+
+#change the font size
+
+input_text = st.file_uploader("Upload a text file 📂", type=["txt"], )
 
 if input_text is not None:
     # Summarization ✂️
     start_summarization = st.button("Start Summarization 🚀")
     if start_summarization:
-        st.title("Text Summarization 📝")
+        st.markdown("<h1 style='font-size: 30px; color: blue;'>Text Summarization 📝</h1>", unsafe_allow_html=True)
         text = input_text.read().decode('utf-8')
         obj = Analyticsfunction()
         claude3 = obj.call_claude_sonet_text
@@ -104,9 +117,11 @@ if input_text is not None:
     with open('summary.txt', 'r') as f:
         summary = f.read()
     if start_qa:
-        st.title("Question & Answer ❓❔")
+        st.markdown("<h1 style='font-size: 30px; color: blue;'>Question & Answer ❓❔</h1>", unsafe_allow_html=True)
+        # st.title("Question & Answer ❓❔")
+        #get user input to decide on number of question 
 
-        prompt = f'''Human: Please generate 5 multiple-choice questions and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
+        prompt = f'''Human: Please generate {num_questions} multiple-choice questions and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
             <book>
             {summary}
             </book>
@@ -139,9 +154,9 @@ if __name__ == "__main__":
     st.sidebar.markdown("""
     <small>Powered by Streamlit</small>
     """, unsafe_allow_html=True)
-    st.write("Streamlit app demonstrating text summarization, Q&A, and image generation.")
+    #st.write("Streamlit app demonstrating text summarization, Q&A, and image generation.")
     st.sidebar.markdown("""
     <small>Note: This app requires an active internet connection and may take some time to load.</small>
     """, unsafe_allow_html=True)
-    st.write("Upload an input text file to get started.")
+    #st.write("Upload an input text file to get started.")
     st.stop()
