@@ -12,7 +12,7 @@ from core_lib.base_function import pdfuplaodllmmodelselection
 st.set_page_config(page_title="Text Summarization, Q&A, and Image Generation", layout= "wide")
 
 #write the name of solution
-st.title("Math Class-Text Summarization, Q&A, and Image Generation")
+st.title(" 💡 Text Summarization, Q&A, and Image Generation for Mathematics")
 
 # Global variable to store the summary
 summary = ""
@@ -22,17 +22,17 @@ def create_image(question):
     detect_shape = math.detect_shape
     shape = detect_shape(question)
 
-    prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using matplotlib package
-                1. Save plot as {shape}.jpg, plot context/question at top. create small image with fixed size pixels
-                2. context into the image at top. 
-                3. draw correct shape for {shape}
-                4. complete all edges and align properly for {shape}
-                5. Label each edge with (e.g., A, B, etc.) for better understanding.
-                6. import all necessary libraries and functions.
-                7. write code to draw {shape}
-                8. code should be 100% accurate
-    
-                Assistant:'''
+    prompt = f'''Human: write python code to generate image of {shape} for the {question} using matplotlib and seaborn package
+                    1. Save plot as {shape}.jpg, plot context/question at top. create small image with fixed size 300 dpi pixels 
+                    2. context into the image at top. 
+                    3. draw correct shape for {shape}
+                    4. complete all edges and align properly for {shape}
+                    5. Label each edge with (e.g., A, B, etc.) for better understanding.
+                    6. import all necessary libraries and functions.
+                    7. write code to draw {shape}
+                    8. code should be 100% accurate
+        
+                    Assistant:'''
 
     body = json.dumps({"prompt": prompt})
     text = math.call_claude_sonet_text(body)
@@ -43,10 +43,10 @@ def create_image(question):
     os.system(f"python3 {output_file}")
     time.sleep(5)
 
-    # Check if the image file exists
+        # Check if the image file exists
     if os.path.isfile(image_name):
         img = mpimg.imread(image_name)
-        st.image(img, width=400)
+        st.image(img, width=300)
     else:
         st.write(f"Error: Image file '{image_name}' not found.")
 
@@ -92,7 +92,7 @@ if ask_question_button:
 
 # import streamlit as st
 
-st.markdown("<h1 style='font-size: 30px; color: blue;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='font-size: 20px; color: blue;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
 
 
 #change the font size
@@ -105,7 +105,7 @@ if input_text is not None:
     # Summarization ✂️
     start_summarization = st.button("Start Summarization 🚀")
     if start_summarization:
-        st.markdown("<h1 style='font-size: 30px; color: blue;'>Text Summarization 📝</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='font-size: 20px; color: blue;'>Text Summarization 📝</h1>", unsafe_allow_html=True)
         text = input_text.read().decode('utf-8')
         obj = Analyticsfunction()
         claude3 = obj.call_claude_sonet_text
@@ -125,11 +125,11 @@ if input_text is not None:
     with open('summary.txt', 'r') as f:
         summary = f.read()
     if start_qa:
-        st.markdown("<h1 style='font-size: 30px; color: blue;'>Question & Answer ❓❔</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='font-size: 20px; color: blue;'>Question & Answer ❓❔</h1>", unsafe_allow_html=True)
         # st.title("Question & Answer ❓❔")
         #get user input to decide on number of question 
 
-        prompt = f'''Human: Please generate {num_questions} multiple-choice questions and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
+        prompt = f'''Human: Please generate {num_questions} number of multiple-choice question and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
             <book>
             {summary}
             </book>
@@ -147,8 +147,10 @@ if input_text is not None:
 
         if json_data and "questions" in json_data:  # Check if json_data is defined and has "questions" key ✅
             for question in json_data["questions"]:
-                st.write(f"Question: {translate(question['question'], target_lang=selected_lang)} ❓")
-                create_image(question["question"])  # Fixed image size
+                st.write(f"Question: {translate(question['question'], target_lang=selected_lang)}")
+                create_image(question["question"])
+                time.sleep(3)
+                  # Fixed image size
                 #options = [translate(option, target_lang=selected_lang) for option in question['options']]
                 st.write(f"Options: {question['options']} 🔽")
                 st.write(f"Answer: {question['answer']} ✅")
@@ -161,18 +163,20 @@ if input_text is not None:
 # Run the app
 if __name__ == "__main__":
     st.sidebar.markdown("""
-    <small>Created by Anthropic</small>
+    <large>Created by Anthropic’s Claude 3 Sonnet using Bedrock</large>
     """, unsafe_allow_html=True)
     st.sidebar.markdown("""
-    <small>Powered by Streamlit</small>
+    <large>Using chain of throught (COT)</large>
     """, unsafe_allow_html=True)
     #st.write("Streamlit app demonstrating text summarization, Q&A, and image generation.")
     st.sidebar.markdown("""
     <small>Note: This app requires an active internet connection and may take some time to load.</small>
     """, unsafe_allow_html=True)
+    st.sidebar.markdown("<h1 style='font-size: 16px; color: black;'>Question1 : ABCDEF is a hexagon (six-sided polygon). Find the value of AB+BC+CD+DE+AF+FE+AE ?</h1>", unsafe_allow_html=True)
+    #st.sidebar.markdown("Question1 : ABCDEF is a hexagon (six-sided polygon). Find the value of AB+BC+CD+DE+AF+FE+AE ?")
+    st.sidebar.markdown("<h1 style='font-size: 16px; color: black;'>Question2: If the position vectors of the vertices A, B, and C of a triangle △ABC are αi+βj+γk, βi+γj+αk, and γi+αj+βk respectively, then △ABC is ?</h1>", unsafe_allow_html=True)
+    st.sidebar.markdown("<h1 style='font-size: 16px; color: black;'>Question3: what is area of rectangle?</h1>", unsafe_allow_html=True)
 
-    st.sidebar.markdown("Question1 : ABCDEF is a hexagon (six-sided polygon). Find the value of AB+BC+CD+DE+AF+FE+AE ?")
-
-    st.sidebar.markdown("Question2: If the position vectors of the vertices A, B, and C of a triangle △ABC are αi+βj+γk, βi+γj+αk, and γi+αj+βk respectively, then △ABC is ")
+    # st.sidebar.markdown("Question2: If the position vectors of the vertices A, B, and C of a triangle △ABC are αi+βj+γk, βi+γj+αk, and γi+αj+βk respectively, then △ABC is ")
     #st.write("Upload an input text file to get started.")
     st.stop()

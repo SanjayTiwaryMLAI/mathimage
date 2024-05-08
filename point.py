@@ -1,33 +1,42 @@
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 
-# Set the context/question
-context = "What are the three coordinates used to represent a point in 3D coordinate geometry?"
+# Set the context and question
+context = "What are the three coordinates used to represent a point in 3D space?"
 
-# Create a small image with fixed size pixels
-fig, ax = plt.subplots(figsize=(5, 5))
+# Set the figure size and resolution
+fig, ax = plt.subplots(figsize=(4, 4), dpi=300)
 
-# Add the context into the image at the top
-ax.set_title(context, fontsize=12, pad=20)
+# Set the axis limits
+ax.set_xlim([-1, 1])
+ax.set_ylim([-1, 1])
+ax.set_zlim([-1, 1])
 
 # Draw the point
-point_x, point_y, point_z = 0, 0, 0  # Coordinates of the point
-ax.scatter(point_x, point_y, point_z, s=100, color='red', marker='o', label='Point')
+point_x, point_y, point_z = 0, 0, 0
+ax.scatter(point_x, point_y, point_z, color='red', s=50, label='Point')
 
 # Label the axes
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
+ax.set_xlabel('X', fontsize=10)
+ax.set_ylabel('Y', fontsize=10)
+ax.set_zlabel('Z', fontsize=10)
 
-# Set axis limits
-ax.set_xlim(-1, 1)
-ax.set_ylim(-1, 1)
-ax.set_zlim(-1, 1)
+# Add the context at the top
+ax.text(0, 1.1, context, ha='center', va='bottom', fontsize=10, transform=ax.transAxes)
 
 # Add a legend
-ax.legend()
+ax.legend(fontsize=8)
 
-# Save the plot as point.jpg
-plt.savefig('point.jpg', dpi=300, bbox_inches='tight')
+# Set the aspect ratio to equal
+ax.set_box_aspect((1, 1, 1))
+
+# Remove the grid and tick labels
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_zticks([])
+ax.grid(False)
+
+# Save the plot as an image
+plt.savefig('point.jpg', dpi=300, bbox_inches='tight', pad_inches=0.1)
 
