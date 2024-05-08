@@ -22,7 +22,7 @@ def create_image(question):
     detect_shape = math.detect_shape
     shape = detect_shape(question)
 
-    prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using seaborn package
+    prompt = f'''Human: write python code to draw {shape} for generating image for the {question} using matplotlib package
                 1. Save plot as {shape}.jpg, plot context/question at top. create small image with fixed size pixels
                 2. context into the image at top. 
                 3. draw correct shape for {shape}
@@ -46,7 +46,7 @@ def create_image(question):
     # Check if the image file exists
     if os.path.isfile(image_name):
         img = mpimg.imread(image_name)
-        st.image(img, width=300)
+        st.image(img, width=400)
     else:
         st.write(f"Error: Image file '{image_name}' not found.")
 
@@ -79,6 +79,12 @@ selected_lang = st.sidebar.selectbox("Select Language", languages, index=languag
 
 num_questions = st.number_input("Enter the number of questions to generate", min_value=1, max_value=10, value=1)
 
+# Ask question button
+question = st.text_input("Enter your question:")
+ask_question_button = st.button("Ask Question")
+if ask_question_button:
+    create_image(question)
+
 # # Always display on Streamlit UI 📺
 
 # # st.title("<h1 style='font-size: 30px;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
@@ -92,6 +98,8 @@ st.markdown("<h1 style='font-size: 30px; color: blue;'>Upload Input Text 📥</h
 #change the font size
 
 input_text = st.file_uploader("Upload a text file 📂", type=["txt"], )
+#display the content of uploaded file name
+
 
 if input_text is not None:
     # Summarization ✂️
@@ -131,7 +139,10 @@ if input_text is not None:
         body = json.dumps({"prompt": prompt})
         question = math.question_answer_generation(body)
         json_data = extract_json(question)
+        #parse Json data and display on UI
         st.write(json_data)
+
+  
         # Save json_data to local
 
         if json_data and "questions" in json_data:  # Check if json_data is defined and has "questions" key ✅
@@ -146,6 +157,7 @@ if input_text is not None:
         else:
             st.warning("Please generate a summary first. ⚠️")
 
+
 # Run the app
 if __name__ == "__main__":
     st.sidebar.markdown("""
@@ -158,5 +170,9 @@ if __name__ == "__main__":
     st.sidebar.markdown("""
     <small>Note: This app requires an active internet connection and may take some time to load.</small>
     """, unsafe_allow_html=True)
+
+    st.sidebar.markdown("Question1 : ABCDEF is a hexagon (six-sided polygon). Find the value of AB+BC+CD+DE+AF+FE+AE ?")
+
+    st.sidebar.markdown("Question2: If the position vectors of the vertices A, B, and C of a triangle △ABC are αi+βj+γk, βi+γj+αk, and γi+αj+βk respectively, then △ABC is ")
     #st.write("Upload an input text file to get started.")
     st.stop()
