@@ -2,46 +2,39 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
+# Set the figure size and DPI
+fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
+
+# Add the context/question at the top
+ax.set_title("If the position vectors of the vertices A, B, and C of a triangle \u25b3ABC are \n"
+             "\u03b1i+\u03b2j+\u03b3k, \u03b2i+\u03b3j+\u03b1k, and \u03b3i+\u03b1j+\u03b2k respectively, then \u25b3ABC is ?",
+             fontsize=12, wrap=True)
+
+# Set the plot style
+sns.set_style("whitegrid")
+
 # Define the vertices of the triangle
-A = np.array([1, 2, 3])
-B = np.array([4, 5, 6])
-C = np.array([7, 8, 9])
-
-# Calculate the centroid (center of mass) of the triangle
-centroid = (A + B + C) / 3
-
-# Create a figure and axis
-fig, ax = plt.subplots(figsize=(6, 4), dpi=300)
-
-# Set the title and context
-ax.set_title("What are the coordinates of the centroid (center of mass)\nof a triangle with vertices A(1, 2, 3), B(4, 5, 6), and C(7, 8, 9)?", fontsize=12)
+A = np.array([0, 0])
+B = np.array([4, 0])
+C = np.array([2, 3])
 
 # Draw the triangle
-triangle = plt.Polygon([A[:2], B[:2], C[:2]], fill=False, edgecolor='k', linewidth=2)
-ax.add_patch(triangle)
+ax.plot([A[0], B[0]], [A[1], B[1]], 'k-', label='A-B')
+ax.plot([B[0], C[0]], [B[1], C[1]], 'k-', label='B-C')
+ax.plot([C[0], A[0]], [C[1], A[1]], 'k-', label='C-A')
 
 # Label the vertices
-ax.text(A[0], A[1], 'A', fontsize=10, ha='center', va='bottom')
-ax.text(B[0], B[1], 'B', fontsize=10, ha='center', va='bottom')
-ax.text(C[0], C[1], 'C', fontsize=10, ha='center', va='bottom')
+ax.text(A[0] - 0.2, A[1] - 0.2, 'A', fontsize=12)
+ax.text(B[0] + 0.2, B[1] - 0.2, 'B', fontsize=12)
+ax.text(C[0], C[1] + 0.2, 'C', fontsize=12)
 
-# Plot the centroid
-ax.scatter(centroid[0], centroid[1], color='r', marker='o', s=50)
-ax.text(centroid[0], centroid[1], 'Centroid', fontsize=10, ha='center', va='bottom')
+# Add a legend
+ax.legend(loc='upper left', fontsize=10)
 
-# Set the aspect ratio and limits
-ax.set_aspect('equal')
-ax.autoscale_view()
-
-# Remove the axes ticks and spines
+# Remove the x and y ticks
 ax.set_xticks([])
 ax.set_yticks([])
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-ax.spines['bottom'].set_visible(False)
-ax.spines['left'].set_visible(False)
 
-# Save the plot as an image
-plt.savefig('triangle.jpg', dpi=300, bbox_inches='tight')
-plt.show()
+# Save the plot
+plt.savefig('triangle.jpg', bbox_inches='tight', dpi=300)
 

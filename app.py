@@ -17,13 +17,14 @@ st.title(" 💡 Text Summarization, Q&A, and Image Generation for Mathematics")
 # Global variable to store the summary
 summary = ""
 
+@st.cache_resource
 def create_image(question):
     math = mathquestion()
     detect_shape = math.detect_shape
     shape = detect_shape(question)
 
-    prompt = f'''Human: write python code to generate image of {shape} for the {question} using matplotlib and seaborn package
-                    1. Save plot as {shape}.jpg, plot context/question at top. create small image with fixed size 300 dpi pixels 
+    prompt = f'''Human: Generate python code to create {shape} for the {question} using seaborn package. following are guideline. 
+                    1. Save plot as {shape}.jpg, plot context/question at top. create image with fixed size 300 dpi pixels 
                     2. context into the image at top. 
                     3. draw correct shape for {shape}
                     4. complete all edges and align properly for {shape}
@@ -59,6 +60,7 @@ def translate(text, source_lang='en', target_lang='hi'):
     return result.get('TranslatedText')
 
 # Function to extract JSON data
+@st.cache_resource
 def extract_json(response):
     try:
         start_index = response.find('{')
@@ -77,7 +79,7 @@ st.sidebar.title("Options 🛠️")
 languages = ['en', 'hi', 'es', 'fr', 'de', 'zh', 'ja', 'ru', 'pt', 'ar']
 selected_lang = st.sidebar.selectbox("Select Language", languages, index=languages.index('en'))
 
-num_questions = st.number_input("Enter the number of questions to generate", min_value=1, max_value=10, value=1)
+num_questions = st.number_input("Enter the number of questions to generate", min_value=2, max_value=10, value=2)
 
 # Ask question button
 question = st.text_input("Enter your question:")
@@ -141,24 +143,16 @@ if input_text is not None:
         json_data = extract_json(question)
         #parse Json data and display on UI
         st.write(json_data)
-
-  
-        # Save json_data to local
-
-        if json_data and "questions" in json_data:  # Check if json_data is defined and has "questions" key ✅
-            for question in json_data["questions"]:
-                st.write(f"Question: {translate(question['question'], target_lang=selected_lang)}")
-                create_image(question["question"])
-                time.sleep(3)
-                  # Fixed image size
-                #options = [translate(option, target_lang=selected_lang) for option in question['options']]
-                st.write(f"Options: {question['options']} 🔽")
-                st.write(f"Answer: {question['answer']} ✅")
-                st.write(f"Explanation: {translate(question['explanation'], target_lang=selected_lang)} 💡")
-                st.write("--------------------------------------")
-        else:
-            st.warning("Please generate a summary first. ⚠️")
-
+         
+        for question in json_data["questions"]:
+            st.write(f"Question: {translate(question['question'], target_lang=selected_lang)}")
+            create_image(question["question"])
+            time.sleep(3)
+            st.write(f"Options: {question['options']} 🔽")
+            st.write(f"Answer: {question['answer']} ✅")
+            st.write(f"Explanation: {translate(question['explanation'], target_lang=selected_lang)} 💡")
+            st.write("--------------------------------------")
+       
 
 # Run the app
 if __name__ == "__main__":

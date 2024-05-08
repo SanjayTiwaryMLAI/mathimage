@@ -68,7 +68,7 @@ class Analyticsfunction:
         self.question = question
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 1500,
+                "max_tokens": 3000,
                 "temperature": 0.9,
                 "top_k": 250,
                 "top_p": 0.9,

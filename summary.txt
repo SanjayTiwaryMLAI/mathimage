@@ -1,35 +1,30 @@
 Here is a summary of the document in around 1000 words:
 
-The document is a transcript of a classroom lecture on 3D coordinate geometry. The key points covered are:
+The document appears to be a transcript of a lecture on 3D coordinate geometry. The key points covered are:
 
 Introduction to 3D Coordinate Geometry
-- In 3D, a point is represented by three coordinates (x, y, z) instead of two coordinates (x, y) in 2D geometry.
-- The three coordinate axes are X, Y and Z axes.
-- The X coordinate represents the distance from the YZ plane, Y coordinate represents distance from the XZ plane, and Z coordinate represents distance from the XY plane.
+- Just like in 2D coordinate geometry, in 3D we have x, y and z coordinate axes
+- A point P with coordinates (x,y,z) is located at distances x from yz-plane, y from xz-plane and z from xy-plane
+- The equations of the coordinate planes are: xy-plane: z=0, yz-plane: x=0, xz-plane: y=0
 
 Distance Formula
-- The distance formula in 3D is an extension of the 2D distance formula.
-- If two points A and B have coordinates (x1, y1, z1) and (x2, y2, z2) respectively, then the distance AB is given by:
+- The distance between two points A(x1,y1,z1) and B(x2,y2,z2) is given by:
 √[(x2-x1)2 + (y2-y1)2 + (z2-z1)2]
+- This can be used to find the nature of a triangle (isosceles, scalene etc) or quadrilateral (square, rectangle etc) formed by given points
 
-Section Formula 
-- To find the ratio in which a line segment AB is divided by a point P internally or externally.
-- For internal division with coordinates of A(x1,y1,z1), B(x2,y2,z2) and P(x,y,z) dividing AB internally in the ratio m1:m2, the coordinates of P are:
-(m1x2 + m2x1)/(m1 + m2), (m1y2 + m2y1)/(m1 + m2), (m1z2 + m2z1)/(m1 + m2)
+Section Formula
+- To find the coordinates of a point R that divides the line segment AB internally in the ratio m1:m2
+  xR = (m1x2 + m2x1)/(m1+m2)
+  yR = (m1y2 + m2y1)/(m1+m2) 
+  zR = (m1z2 + m2z1)/(m1+m2)
 
-Mid-Point Formula
-- To find the midpoint M of the line segment AB with endpoints A(x1, y1, z1) and B(x2, y2, z2), the coordinates of M are given by: 
-((x1 + x2)/2, (y1 + y2)/2, (z1 + z2)/2)
+- For external division, the formula is similar with m1 and m2 interchanged
 
 Centroid
-- The centroid or center of mass of a system of points is calculated as the arithmetic mean of the coordinates.
-- For a triangle with vertices (x1,y1,z1), (x2,y2,z2), (x3,y3,z3), the centroid is: ((x1+x2+x3)/3, (y1+y2+y3)/3, (z1+z2+z3)/3)
-- For a tetrahedron (3D pyramid) with vertices (x1,y1,z1), (x2,y2,z2), (x3,y3,z3), (x4,y4,z4), the centroid is: ((x1+x2+x3+x4)/4, (y1+y2+y3+y4)/4, (z1+z2+z3+z4)/4)
+- Centroid of a triangle with vertices A(x1,y1,z1), B(x2,y2,z2), C(x3,y3,z3) is given by:
+  (x1+x2+x3)/3, (y1+y2+y3)/3, (z1+z2+z3)/3
 
-The lecture also covered conditions for three points to be collinear (lie on the same line) in 3D by comparing the ratios of differences in coordinates.
+- Centroid of a tetrahedron with vertices A,B,C,D is given by: 
+  (x1+x2+x3+x4)/4, (y1+y2+y3+y4)/4, (z1+z2+z3+z4)/4
 
-Properties of parallelograms and other quadrilaterals in 3D space were discussed by comparing the direction ratios of opposite sides.
-
-The instructor encouraged students to practice problems on applying these concepts to find distances, centroids, section points as well as classify triangles and quadrilaterals based on given vertex coordinates.
-
-Overall, the lecture methodically extended key concepts from 2D coordinate geometry to the 3D case using examples, derivations and geometric visualizations. The tone was interactive with students being prompted for responses.
+The lecture covers the basics of locating points, finding distances between them, dividing line segments and finding centroids of simple 3D figures like triangles and tetrahedrons. The formulas are derived from extending the corresponding 2D concepts to 3D. Examples and practice questions are discussed throughout to reinforce the concepts.

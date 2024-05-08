@@ -3,40 +3,32 @@ import seaborn as sns
 import numpy as np
 
 # Set the context and question
-context = "What are the three coordinates used to represent a point in 3D space?"
+context = "What is the 3D distance formula to find the distance between two points A(x1, y1, z1) and B(x2, y2, z2)?"
 
 # Set the figure size and resolution
 fig, ax = plt.subplots(figsize=(4, 4), dpi=300)
 
+# Add the context to the top of the plot
+ax.text(0.5, 0.95, context, ha='center', va='top', transform=ax.transAxes, fontsize=10, wrap=True)
+
 # Set the axis limits
 ax.set_xlim([-1, 1])
 ax.set_ylim([-1, 1])
-ax.set_zlim([-1, 1])
-
-# Draw the point
-point_x, point_y, point_z = 0, 0, 0
-ax.scatter(point_x, point_y, point_z, color='red', s=50, label='Point')
-
-# Label the axes
-ax.set_xlabel('X', fontsize=10)
-ax.set_ylabel('Y', fontsize=10)
-ax.set_zlabel('Z', fontsize=10)
-
-# Add the context at the top
-ax.text(0, 1.1, context, ha='center', va='bottom', fontsize=10, transform=ax.transAxes)
-
-# Add a legend
-ax.legend(fontsize=8)
-
-# Set the aspect ratio to equal
-ax.set_box_aspect((1, 1, 1))
-
-# Remove the grid and tick labels
 ax.set_xticks([])
 ax.set_yticks([])
-ax.set_zticks([])
-ax.grid(False)
 
-# Save the plot as an image
-plt.savefig('point.jpg', dpi=300, bbox_inches='tight', pad_inches=0.1)
+# Draw the point
+ax.scatter(0, 0, s=100, color='black', marker='o')
+
+# Label the point
+ax.text(0.1, 0.1, 'A', fontsize=12)
+
+# Set the aspect ratio to make the point appear circular
+ax.set_aspect('equal')
+
+# Remove the axis labels and ticks
+plt.axis('off')
+
+# Save the plot as point.jpg
+plt.savefig('point.jpg', bbox_inches='tight', dpi=300)
 

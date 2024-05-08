@@ -1,39 +1,30 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 
-# Set the context and question
-context = "What is the area of a rectangle?"
+# Set the context and style
+sns.set_context("notebook", font_scale=1.5, rc={"lines.linewidth": 2.5})
+sns.set_style("whitegrid")
 
-# Set the dimensions of the rectangle
-length = 10
-width = 6
+# Create a figure with fixed size and resolution
+fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
 
-# Set the figure size and DPI
-fig, ax = plt.subplots(figsize=(4, 3), dpi=300)
+# Add the question at the top
+ax.text(0.5, 0.9, "What is the area of a rectangle?", ha="center", va="center", transform=ax.transAxes, fontsize=16)
 
 # Draw the rectangle
-rect = plt.Rectangle((0, 0), length, width, edgecolor='black', facecolor='lightgray', linewidth=2)
+rect = plt.Rectangle((0.2, 0.2), 0.6, 0.4, facecolor="none", edgecolor="black", linewidth=2)
 ax.add_patch(rect)
 
 # Label the edges
-ax.text(length/2, -0.5, 'A', ha='center', va='top', fontsize=12)
-ax.text(length+0.5, width/2, 'B', ha='left', va='center', fontsize=12)
-ax.text(length/2, width+0.5, 'C', ha='center', va='bottom', fontsize=12)
-ax.text(-0.5, width/2, 'D', ha='right', va='center', fontsize=12)
+ax.text(0.1, 0.5, "A", ha="center", va="center", fontsize=14)
+ax.text(0.9, 0.5, "B", ha="center", va="center", fontsize=14)
+ax.text(0.5, 0.1, "C", ha="center", va="center", fontsize=14)
+ax.text(0.5, 0.9, "D", ha="center", va="center", fontsize=14)
 
-# Set the axis limits and remove ticks
-ax.set_xlim([-1, length+1])
-ax.set_ylim([-1, width+1])
+# Remove axis ticks and labels
 ax.set_xticks([])
 ax.set_yticks([])
 
-# Add the context and question at the top
-ax.text(0.5, 1.1, context, ha='center', va='bottom', transform=ax.transAxes, fontsize=14, fontweight='bold')
-
-# Set the background color
-fig.patch.set_facecolor('white')
-
-# Save the plot as rectangle.jpg
-plt.savefig('rectangle.jpg', bbox_inches='tight', dpi=300)
+# Save the plot
+plt.savefig("rectangle.jpg", bbox_inches="tight", dpi=300)
 
