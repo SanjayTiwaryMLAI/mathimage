@@ -23,15 +23,15 @@ def create_image(question):
     detect_shape = math.detect_shape
     shape = detect_shape(question)
 
-    prompt = f'''Human: Generate python code to create {shape} for the {question} using seaborn package. following are guideline. 
+    prompt = f'''Human: Please create python script to create image of {shape} using seaborn package. 
+                    Please follow the guideline. 
                     1. Save plot as {shape}.jpg, plot context/question at top. create image with fixed size 300 dpi pixels 
-                    2. context into the image at top. 
-                    3. draw correct shape for {shape}
+                    2. This image should be created so that it is represting how to solve {question}, add {question} into the image at top. 
+                    3. draw correct image for {shape}, image should cover 80% of area.
                     4. complete all edges and align properly for {shape}
                     5. Label each edge with (e.g., A, B, etc.) for better understanding.
                     6. import all necessary libraries and functions.
-                    7. write code to draw {shape}
-                    8. code should be 100% accurate
+                    7. code should be 100% accurate
         
                     Assistant:'''
 
@@ -47,7 +47,7 @@ def create_image(question):
         # Check if the image file exists
     if os.path.isfile(image_name):
         img = mpimg.imread(image_name)
-        st.image(img, width=300)
+        st.image(img, width= 500)
     else:
         st.write(f"Error: Image file '{image_name}' not found.")
 
@@ -60,7 +60,7 @@ def translate(text, source_lang='en', target_lang='hi'):
     return result.get('TranslatedText')
 
 # Function to extract JSON data
-@st.cache_resource
+
 def extract_json(response):
     try:
         start_index = response.find('{')

@@ -1,42 +1,40 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
-# Set the figure size and DPI
-fig, ax = plt.subplots(figsize=(6, 4), dpi=300)
+# Set the figure size and resolution
+fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
 
 # Add the question at the top
-ax.text(0.5, 0.95, "What are the coordinates used to represent points in 3D space?", transform=ax.transAxes, ha="center", va="top", fontsize=12)
+ax.set_title("What is the primary focus of the book?", fontsize=14, pad=20)
 
-# Create a 3D plane
-x = [-1, 1, 1, -1, -1]
-y = [-1, -1, 1, 1, -1]
-z = [0, 0, 0, 0, 0]
+# Draw the plane
+x = np.linspace(-1, 1, 100)
+y1 = np.sqrt(1 - x**2)
+y2 = -np.sqrt(1 - x**2)
 
-# Plot the plane
-ax.plot(x, y, z, color='black', linewidth=2)
+ax.plot(x, y1, color='black', label='A')
+ax.plot(x, y2, color='black', label='B')
+ax.axvline(0, color='black', label='C')
+ax.axhline(0, color='black', label='D')
+
+# Adjust plot limits and aspect ratio
+ax.set_xlim(-1.1, 1.1)
+ax.set_ylim(-1.1, 1.1)
+ax.set_aspect('equal')
 
 # Label the edges
-ax.text(-1.1, -1.1, 0, 'A', fontsize=10)
-ax.text(1.1, -1.1, 0, 'B', fontsize=10)
-ax.text(1.1, 1.1, 0, 'C', fontsize=10)
-ax.text(-1.1, 1.1, 0, 'D', fontsize=10)
+ax.legend(title='Edges', loc='upper left', bbox_to_anchor=(1.01, 1), borderaxespad=0)
 
-# Remove axis ticks and labels
+# Remove ticks and spines
 ax.set_xticks([])
 ax.set_yticks([])
-ax.set_zticks([])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
 
-# Set the aspect ratio to equal
-ax.set_box_aspect((1, 1, 1))
-
-# Adjust the plot limits
-ax.set_xlim(-1.5, 1.5)
-ax.set_ylim(-1.5, 1.5)
-ax.set_zlim(-0.5, 0.5)
-
-# Set the view angle
-ax.view_init(elev=30, azim=-45)
-
-# Save the plot as plane.jpg
-plt.savefig("plane.jpg", dpi=300, bbox_inches="tight")
+# Adjust the layout and save the figure
+plt.tight_layout()
+plt.savefig('plane.jpg', bbox_inches='tight', dpi=300)
 

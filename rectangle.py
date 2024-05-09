@@ -1,30 +1,33 @@
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Set the context and style
-sns.set_context("notebook", font_scale=1.5, rc={"lines.linewidth": 2.5})
-sns.set_style("whitegrid")
-
-# Create a figure with fixed size and resolution
+# Set the figure size and DPI
 fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
 
-# Add the question at the top
-ax.text(0.5, 0.9, "What is the area of a rectangle?", ha="center", va="center", transform=ax.transAxes, fontsize=16)
+# Add the context/question at the top
+ax.set_title("What is the area of a rectangle?", fontsize=16, pad=20)
 
 # Draw the rectangle
-rect = plt.Rectangle((0.2, 0.2), 0.6, 0.4, facecolor="none", edgecolor="black", linewidth=2)
+rect = plt.Rectangle((0.1, 0.1), 0.8, 0.6, facecolor='lightblue', edgecolor='black')
 ax.add_patch(rect)
 
 # Label the edges
-ax.text(0.1, 0.5, "A", ha="center", va="center", fontsize=14)
-ax.text(0.9, 0.5, "B", ha="center", va="center", fontsize=14)
-ax.text(0.5, 0.1, "C", ha="center", va="center", fontsize=14)
-ax.text(0.5, 0.9, "D", ha="center", va="center", fontsize=14)
+ax.text(0.05, 0.6, 'A', fontsize=12, ha='center', va='center')
+ax.text(0.9, 0.6, 'B', fontsize=12, ha='center', va='center')
+ax.text(0.05, 0.1, 'C', fontsize=12, ha='center', va='center')
+ax.text(0.9, 0.1, 'D', fontsize=12, ha='center', va='center')
 
-# Remove axis ticks and labels
+# Remove axis ticks and spines
 ax.set_xticks([])
 ax.set_yticks([])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
 
-# Save the plot
-plt.savefig("rectangle.jpg", bbox_inches="tight", dpi=300)
+# Adjust the plot layout
+plt.tight_layout()
+
+# Save the plot as a JPEG file
+plt.savefig('rectangle.jpg', dpi=300, bbox_inches='tight')
 

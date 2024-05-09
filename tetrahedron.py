@@ -1,52 +1,46 @@
+import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 
-# Define the vertices of the tetrahedron
-A = np.array([1, 2, 3])
-B = np.array([4, 5, 6])
-C = np.array([7, 8, 9])
-D = np.array([10, 11, 12])
+# Set the figure size and resolution
+fig = plt.figure(figsize=(8, 6), dpi=300)
 
-# Calculate the centroid of the tetrahedron
-centroid = (A + B + C + D) / 4
-
-# Create a 3D figure and axis
-fig = plt.figure(figsize=(5, 5), dpi=300)
+# Add a 3D axis
 ax = fig.add_subplot(111, projection='3d')
 
-# Plot the vertices and edges of the tetrahedron
-ax.scatter(A[0], A[1], A[2], c='r', marker='o', label='A')
-ax.scatter(B[0], B[1], B[2], c='g', marker='o', label='B')
-ax.scatter(C[0], C[1], C[2], c='b', marker='o', label='C')
-ax.scatter(D[0], D[1], D[2], c='y', marker='o', label='D')
+# Set the title
+question = "If the centroid of a tetrahedron (pyramid with triangular base) is (2, 3, 4), and three of its vertices are (1, 2, 3), (4, 5, 6), and (3, 1, 5), what are the coordinates of the fourth vertex?"
+ax.set_title(question, fontsize=12, pad=20)
 
-ax.plot([A[0], B[0]], [A[1], B[1]], [A[2], B[2]], 'k-')
-ax.plot([B[0], C[0]], [B[1], C[1]], [B[2], C[2]], 'k-')
-ax.plot([C[0], D[0]], [C[1], D[1]], [C[2], D[2]], 'k-')
-ax.plot([D[0], A[0]], [D[1], A[1]], [D[2], A[2]], 'k-')
-ax.plot([A[0], C[0]], [A[1], C[1]], [A[2], C[2]], 'k-')
-ax.plot([B[0], D[0]], [B[1], D[1]], [B[2], D[2]], 'k-')
+# Define the vertices of the tetrahedron
+vertices = np.array([[1, 2, 3], [4, 5, 6], [3, 1, 5], [2, 3, 4]])
 
-# Label the vertices
-ax.text(A[0], A[1], A[2], 'A', color='r')
-ax.text(B[0], B[1], B[2], 'B', color='g')
-ax.text(C[0], C[1], C[2], 'C', color='b')
-ax.text(D[0], D[1], D[2], 'D', color='y')
+# Define the edges of the tetrahedron
+edges = [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]]
 
-# Add context and centroid information
-ax.set_title('If the vertices of a tetrahedron are A(1, 2, 3), B(4, 5, 6), C(7, 8, 9), and D(10, 11, 12), \nwhat are the coordinates of its centroid?', fontsize=10)
-ax.text(centroid[0], centroid[1], centroid[2], f'Centroid: ({centroid[0]:.2f}, {centroid[1]:.2f}, {centroid[2]:.2f})', color='k')
+# Draw the edges
+for edge in edges:
+    ax.plot([vertices[edge[0]][0], vertices[edge[1]][0]],
+            [vertices[edge[0]][1], vertices[edge[1]][1]],
+            [vertices[edge[0]][2], vertices[edge[1]][2]],
+            color='k')
 
-# Set aspect ratio and labels
-ax.set_box_aspect((1, 1, 1))
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
+# Label the edges
+edge_labels = ['A', 'B', 'C', 'D', 'E', 'F']
+for i, edge in enumerate(edges):
+    x1, y1, z1 = vertices[edge[0]]
+    x2, y2, z2 = vertices[edge[1]]
+    x_mid, y_mid, z_mid = (x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2
+    ax.text(x_mid, y_mid, z_mid, edge_labels[i], ha='center', va='center')
 
-# Add legend
-ax.legend()
+# Set the aspect ratio and adjust the view
+max_val = max(np.max(vertices[:, 0]), np.max(vertices[:, 1]), np.max(vertices[:, 2]))
+ax.set_xlim([-max_val, max_val])
+ax.set_ylim([-max_val, max_val])
+ax.set_zlim([-max_val, max_val])
+ax.view_init(elev=30, azim=-45)
 
-# Save the plot as a JPEG image
-plt.savefig('tetrahedron.jpg', dpi=300, bbox_inches='tight')
+# Save the plot as tetrahedron.jpg
+plt.savefig('tetrahedron.jpg', bbox_inches='tight', dpi=300)
 

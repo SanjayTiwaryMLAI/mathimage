@@ -1,34 +1,53 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-
-# Set the context and question
-context = "What is the 3D distance formula to find the distance between two points A(x1, y1, z1) and B(x2, y2, z2)?"
+from mpl_toolkits.mplot3d import Axes3D
 
 # Set the figure size and resolution
-fig, ax = plt.subplots(figsize=(4, 4), dpi=300)
+fig = plt.figure(figsize=(8, 6), dpi=300)
 
-# Add the context to the top of the plot
-ax.text(0.5, 0.95, context, ha='center', va='top', transform=ax.transAxes, fontsize=10, wrap=True)
+# Add the question or problem statement at the top of the image
+fig.suptitle("What are the three coordinates used to represent a point in 3D coordinate geometry?", fontsize=14, y=0.95)
 
-# Set the axis limits
-ax.set_xlim([-1, 1])
-ax.set_ylim([-1, 1])
-ax.set_xticks([])
-ax.set_yticks([])
+# Create a 3D plot
+ax = fig.add_subplot(111, projection='3d')
 
-# Draw the point
-ax.scatter(0, 0, s=100, color='black', marker='o')
+# Define the coordinate axes
+x = np.linspace(-5, 5, 100)
+y = np.linspace(-5, 5, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.zeros_like(X)
 
-# Label the point
-ax.text(0.1, 0.1, 'A', fontsize=12)
+# Plot the coordinate planes
+ax.plot_surface(X, Y, Z, alpha=0.2, color='gray')
+ax.plot_surface(X, Z, Y, alpha=0.2, color='gray')
+ax.plot_surface(Z, X, Y, alpha=0.2, color='gray')
 
-# Set the aspect ratio to make the point appear circular
-ax.set_aspect('equal')
+# Define a point in 3D space
+x0, y0, z0 = 2, -3, 4
 
-# Remove the axis labels and ticks
-plt.axis('off')
+# Plot the point
+ax.scatter(x0, y0, z0, s=100, color='r', label='Point (x, y, z)')
 
-# Save the plot as point.jpg
-plt.savefig('point.jpg', bbox_inches='tight', dpi=300)
+# Label the axes
+ax.set_xlabel('X', fontsize=12)
+ax.set_ylabel('Y', fontsize=12)
+ax.set_zlabel('Z', fontsize=12)
+
+# Set axis limits
+ax.set_xlim(-5, 5)
+ax.set_ylim(-5, 5)
+ax.set_zlim(-5, 5)
+
+# Add annotations for the point coordinates
+ax.text(x0 + 0.2, y0, z0, f'({x0}, {y0}, {z0})', fontsize=12)
+
+# Add a legend
+ax.legend()
+
+# Adjust the spacing and alignment
+plt.subplots_adjust(left=0.1, right=0.9, bottom=0.1, top=0.85)
+
+# Save the image
+plt.savefig('point.jpg', dpi=300, bbox_inches='tight')
 
