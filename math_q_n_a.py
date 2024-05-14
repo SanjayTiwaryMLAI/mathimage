@@ -121,12 +121,10 @@ def initialize_tables():
 
 def create_image(question):
     math = mathquestion()
-    detect_shape = math.detect_shape
-    shape = detect_shape(question)
 
     prompt = f'''Human: Please create a Python script to generate an informative and visually appealing image representing the mathematical concept or problem: {question}
                     Please follow these guidelines:
-                    1. Use the seaborn package to create the plot, and save it as {shape}.jpg with a resolution of 100 dpi.
+                    1. Use the seaborn package to create the plot, and save it as "image.jpg" with a resolution of 100 dpi.
                     2. Ensure the code must be complete in all aspect
                     3. Ensure the image covers approximately 80% of the area, leaving space for annotations and labels.
                     4. Complete all edges and align them properly for the chosen shape or representation.
@@ -139,8 +137,8 @@ def create_image(question):
 
     body = json.dumps({"prompt": prompt})
     text = math.call_claude_sonet_text(body)
-    image_name = f'{shape}.jpg'
-    output_file = f'{shape}.py'
+    image_name = "image.jpg"
+    output_file = "main.py"
     math.extract_python_code(text, output_file)
     # time.sleep(3)
     os.system(f"python3 {output_file}")
