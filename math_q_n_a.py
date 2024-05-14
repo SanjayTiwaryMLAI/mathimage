@@ -268,11 +268,12 @@ if input_text is not None:
         claude3 = obj.call_claude_sonet_text
         math = mathquestion()
         summary = math.create_summary(text)
+        new_summary = translate(summary, target_lang=selected_lang)
         st.write(translate(summary, target_lang=selected_lang))
 
         # Save summary to local file
         with open('summary.txt', 'w') as f:
-            f.write(summary)
+            f.write(new_summary)
 
         # Upload summary to S3 bucket
         bucket_name = 'document-tender'
@@ -296,7 +297,7 @@ if input_text is not None:
     if start_qa:
         st.markdown("<h1 style='font-size: 20px; color: blue;'>Question & Answer ❓❔</h1>", unsafe_allow_html=True)
 
-        prompt = f'''Human: Please generate {num_questions} number of multiple-choice question and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
+        prompt = f'''Human: Please generate {num_questions} number of multiple-choice question in {selected_lang} and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
             <book>
             {summary}
             </book>

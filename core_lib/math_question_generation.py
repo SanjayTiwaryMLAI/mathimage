@@ -2,7 +2,7 @@ import boto3
 import base64
 import json
 import re
-bedrock_runtime = boto3.client('bedrock-runtime',region_name='us-east-1')
+
 from IPython.display import Markdown, display
 import docx
 from IPython.display import Markdown, display
@@ -11,6 +11,11 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import time
 import streamlit as st
+
+import botocore
+config = botocore.config.Config(read_timeout=900, connect_timeout=900, retries={"max_attempts": 1})
+session = boto3.Session()
+bedrock_runtime = session.client("bedrock-runtime", config=config, region_name='us-east-1')
 
 
 class Analyticsfunction:
@@ -220,7 +225,7 @@ class mathquestion(Analyticsfunction):
     def create_summary(self, note):
         self.note = note
 
-        prompt = f'''Human: create summary of the document in 1000 words.
+        prompt = f'''Human: create summary of the document in 1000 words.These are education related video, during summarisation please dont change the original context. 
         <book>
         {self.note}
         </book>
