@@ -37,8 +37,8 @@ class Analyticsfunction:
                 "anthropic_version": "bedrock-2023-05-31",
                 "max_tokens": 4096,
                 "temperature": 0.0,
-                "top_k": 250,
-                "top_p": 1,
+                "top_k": 50,
+                "top_p": 0.9,
                 "messages": [
                     {
                         "role": "user",

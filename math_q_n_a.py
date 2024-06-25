@@ -1,4 +1,11 @@
+# importing required modules 
+
 import streamlit as st
+
+st.set_page_config(page_title="Math Image Generation Demo using LLM Chaining", layout="wide")
+st.title(" 🔗 Math Image Generation Demo using LLM Chaining")
+
+
 import boto3
 import os
 import json
@@ -6,10 +13,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from core_lib.math_question_generation import Analyticsfunction, mathquestion
-
-st.set_page_config(page_title="Text Summarization, Q&A, and Image Generation", layout="wide")
-st.title(" 💡 Text Summarization, Q&A, and Image Generation for Mathematics")
-
+from PIL import Image
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 s3 = boto3.client('s3')
@@ -118,15 +122,16 @@ def initialize_tables():
         print(f"Table '{table_name_summarization}' already exists.")
 
 #initialize_tables()
-
-def create_image(question):
+# @st.cache_data
+math = mathquestion()
+def create_image1(question):
     math = mathquestion()
 
     prompt = f'''Human: Please create a Python script to generate an informative and visually appealing image representing the mathematical concept or problem: {question}
                     Please follow these guidelines:
                     1. Use the seaborn package to create the plot, and save it as "image.jpg" with a resolution of 100 dpi.
                     2. Ensure the code must be complete in all aspect
-                    3. Ensure the image covers approximately 80% of the area, leaving space for annotations and labels.
+                    3. Ensure the image covers approximately 80% of the area, leaving space for labels.
                     4. Complete all edges and align them properly for the chosen shape or representation.
                     5. Label relevant components (e.g., edges, vertices, angles) with clear annotations for better understanding.
                     6. Import all necessary libraries and functions required for the task.
@@ -134,20 +139,38 @@ def create_image(question):
                     8. Consider using color, shading, and other visual elements to enhance the clarity and aesthetics of the image.
 
                     Assistant:'''
+    
 
     body = json.dumps({"prompt": prompt})
     text = math.call_claude_sonet_text(body)
+    
+    
+    return text
+    
+def create_image(question):
+    text = create_image1(question)
+    
+    
+    prompt2 = f'''Human:check the correctness of python code {text}, and rewrite the update code but dont change the important section of code.
+                Assistant:'''
+    
+    body2 = json.dumps({"prompt": prompt2})
+    text2 = math.call_claude_sonet_text(body2)
+    
+    #st.write(text2)
+    
     image_name = "image.jpg"
     output_file = "main.py"
-    math.extract_python_code(text, output_file)
+    math.extract_python_code(text2, output_file)
+    
     # time.sleep(3)
     os.system(f"python3 {output_file}")
-    # time.sleep(5)
 
     # Check if the image file exists
     if os.path.isfile(image_name):
-        img = mpimg.imread(image_name)
-        st.image(img, width=400)
+        #img = mpimg.imread(image_name)
+        img = Image.open(image_name)
+        #st.image(img, width=400)
         bucket_name = 'document-tender'
         # Upload image to S3 bucket
         s3.upload_file(image_name, bucket_name, image_name)
@@ -161,63 +184,13 @@ def create_image(question):
                 'image_url': image_url
             }
         )
-        st.write(f"Image URL saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
+        #st.write(f"Image URL saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
 
     else:
         st.write(f"Error: Image file '{image_name}' not found.")
 
-    return image_url
+    return img
 
-# # Function to create an image based on the question
-# def create_image(question):
-#     math = mathquestion()
-#     detect_shape = math.detect_shape
-#     shape = detect_shape(question)
-
-#     prompt = f'''Human: Please create a Python script to create an image of {shape} using the seaborn package. 
-#                     Please follow these guidelines:
-#                     1. Save the plot as {shape}.jpg, and plot the context/question at the top. Create the image with a fixed size of 300 dpi pixels.
-#                     2. This image should be created so that it represents how to solve {question}. Add {question} into the image at the top.
-#                     3. Draw the correct image for {shape}, and make sure the image covers 80% of the area.
-#                     4. Complete all edges and align them properly for {shape}.
-#                     5. Label each edge with (e.g., A, B, etc.) for better understanding.
-#                     6. Import all necessary libraries and functions.
-#                     7. The code should be 100% accurate.
-        
-#                     Assistant:'''
-
-#     body = json.dumps({"prompt": prompt})
-#     text = math.call_claude_sonet_text(body)
-#     image_name = f'{shape}.jpg'
-#     output_file = f'{shape}.py'
-#     math.extract_python_code(text, output_file)
-#     time.sleep(3)
-#     os.system(f"python3 {output_file}")
-#     time.sleep(5)
-
-#     # Check if the image file exists
-#     if os.path.isfile(image_name):
-#         img = mpimg.imread(image_name)
-#         st.image(img, width=500)
-#         bucket_name = 'document-tender'
-#         # Upload image to S3 bucket
-#         s3.upload_file(image_name, bucket_name, image_name)
-#         image_url = f"https://{bucket_name}.s3.amazonaws.com/{image_name}"
-
-#         # Save image URL to DynamoDB
-#         table = dynamodb.Table(table_name_math_question)
-#         response = table.put_item(
-#             Item={
-#                 'question': question,
-#                 'image_url': image_url
-#             }
-#         )
-#         st.write(f"Image URL saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
-
-#     else:
-#         st.write(f"Error: Image file '{image_name}' not found.")
-
-#     return image_url
 
 # Function to translate text
 @st.cache_resource
@@ -227,6 +200,7 @@ def translate(text, source_lang='en', target_lang='hi'):
     return result.get('TranslatedText')
 
 # Function to extract JSON data
+# @st.cache_data
 def extract_json(response):
     try:
         start_index = response.find('{')
@@ -252,7 +226,11 @@ question = st.text_input("Enter your question:")
 ask_question_button = st.button("Ask Question")
 
 if ask_question_button:
-    image_url = create_image(question)
+
+    img = create_image(question)
+    st.image(img, width=400)
+    
+    
 
 st.markdown("<h1 style='font-size: 20px; color: blue;'>Upload Input Text 📥</h1>", unsafe_allow_html=True)
 
@@ -287,7 +265,7 @@ if input_text is not None:
                 'summary': summary_url
             }
         )
-        st.write(f"Summary URL saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
+        #st.write(f"Summary URL saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
 
     # Q&A ❓
     start_qa = st.button("Start Question & Answer 🤔")
@@ -297,7 +275,7 @@ if input_text is not None:
     if start_qa:
         st.markdown("<h1 style='font-size: 20px; color: blue;'>Question & Answer ❓❔</h1>", unsafe_allow_html=True)
 
-        prompt = f'''Human: Please generate {num_questions} number of multiple-choice question in {selected_lang} and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
+        prompt = f'''Human: Please generate {num_questions} number of multiple-choice question and their respective answers based on the content provided in the attached document. The questions should cover a range of difficulty levels (easy, medium, and hard) and test different aspects of the content, such as factual information, concepts, and analysis. Each question should have 4 answer choices, with only one correct answer. Please include question, options, answer, and explanation. 
             <book>
             {summary}
             </book>
@@ -306,6 +284,7 @@ if input_text is not None:
             Assistant:'''
         body = json.dumps({"prompt": prompt})
         question = math.question_answer_generation(body)
+        
         json_data = extract_json(question)
 
         # Save question, answer, and explanation to DynamoDB
@@ -319,18 +298,26 @@ if input_text is not None:
                     'explanation': question_data['explanation']
                 }
             )
-            st.write(f"Question data saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
+        
+        #st.write(f"Question data saved to DynamoDB: {response['ResponseMetadata']['HTTPStatusCode']}")
 
         # Parse JSON data and display on UI
-        st.write(json_data)
+        #st.write(json_data)
+        i = 1
         for question in json_data["questions"]:
-            st.write(f"Question: {translate(question['question'], target_lang=selected_lang)}")
-            create_image(question["question"])
-            # time.sleep(3)
-            st.write(f"Options: {question['options']} 🔽")
-            st.write(f"Answer: {question['answer']} ✅")
-            st.write(f"Explanation: {translate(question['explanation'], target_lang=selected_lang)} 💡")
+            #add spinner
+            with st.spinner("Wait for it..."):
+                    time.sleep(1)
+            st.write(f"**Question ({i})**: {translate(question['question'], target_lang=selected_lang)}")
+            img = create_image(question["question"])
+            st.image(img, width=400)
+            # time.sleep(4)
+            st.write(f"**Options**: {question['options']}")
+            st.write(f"**Answer**: {question['answer']} ")
+            st.write(f"**Explanation**: {translate(question['explanation'], target_lang=selected_lang)} 💡")
             st.write("--------------------------------------")
+            i += 1
+    
 
 # Run the app
 if __name__ == "__main__":
@@ -347,3 +334,4 @@ if __name__ == "__main__":
     st.sidebar.markdown("<h1 style='font-size: 16px; color: black;'>Question2: If the position vectors of the vertices A, B, and C of a triangle △ABC are αi+βj+γk, βi+γj+αk, and γi+αj+βk respectively, then △ABC is ?</h1>", unsafe_allow_html=True)
     st.sidebar.markdown("<h1 style='font-size: 16px; color: black;'>Question3: what is area of rectangle?</h1>", unsafe_allow_html=True)
     st.stop()
+

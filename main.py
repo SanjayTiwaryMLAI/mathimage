@@ -1,31 +1,51 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Set the figure size and resolution
-fig, ax = plt.subplots(figsize=(8, 6), dpi=100)
+fig, ax = plt.subplots(figsize=(8, 8), dpi=100)
 
-# Create a rectangular shape with rounded corners
-rect = patches.Rectangle((0.1, 0.1), 0.8, 0.8, linewidth=2, edgecolor='black', facecolor='lightgray', zorder=1, radius=0.1)
-ax.add_patch(rect)
+# Define the coordinates for the benzene ring
+theta = np.linspace(0, 2 * np.pi, 7)[:-1]
+x = np.cos(theta)
+y = np.sin(theta)
 
-# Add text inside the rectangle
-text = "प्रश्न 27: इंदिरा गांधी सरकार द्वारा 25 जून 1975 को भारत में आपातकाल घोषित करने का क्या कारण था?"
-ax.text(0.2, 0.6, text, fontsize=14, wrap=True, zorder=2)
+# Plot the benzene ring
+ax.plot(x, y, linewidth=2, color='black')
 
-# Add annotations for edges and corners
-ax.annotate('Edge', xy=(0.05, 0.5), xytext=(0.05, 0.4), arrowprops=dict(facecolor='black', shrink=0.05), fontsize=10)
-ax.annotate('Corner', xy=(0.85, 0.85), xytext=(0.7, 0.7), arrowprops=dict(facecolor='black', shrink=0.05), fontsize=10)
+# Add the carbon atoms
+ax.scatter(x, y, s=200, color='black', zorder=3)
 
-# Remove axis ticks and spines
-ax.set_xticks([])
-ax.set_yticks([])
-sns.despine(ax=ax, left=True, bottom=True)
+# Add the hydrogen atoms
+for i in range(len(x)):
+    ax.scatter(x[i] + 0.2 * np.cos(theta[i]), y[i] + 0.2 * np.sin(theta[i]), s=50, color='white', edgecolors='black',
+               zorder=3)
+
+# Label the carbon atoms
+for i, (cx, cy) in enumerate(zip(x, y), start=1):
+    ax.annotate(f'C{i}', (cx + 0.1, cy + 0.1), fontsize=12, color='black')
+
+# Label the hydrogen atoms
+for i, (cx, cy) in enumerate(zip(x, y), start=1):
+    for j in range(1, 3):
+        angle = theta[i] + (j - 1) * np.pi / 3
+        hx = cx + 0.3 * np.cos(angle)
+        hy = cy + 0.3 * np.sin(angle)
+        ax.annotate(f'H{i}{j}', (hx, hy), fontsize=10, color='black')
+
+# Set the plot limits and remove the axes
+ax.set_xlim(-1.2, 1.2)
+ax.set_ylim(-1.2, 1.2)
+ax.axis('off')
 
 # Add a title
-ax.set_title("Mathematical Concept Representation", fontsize=16, fontweight='bold')
+ax.set_title('Benzene Molecular Structure', fontsize=16, pad=20)
+
+# Set a background color (optional)
+fig.set_facecolor('white')
 
 # Save the figure
-plt.savefig("image.jpg", dpi=100, bbox_inches='tight')
+plt.savefig('image.jpg', dpi=100, bbox_inches='tight')
+
+print("Image saved successfully as 'image.jpg'.")
 
