@@ -15,7 +15,7 @@ import streamlit as st
 import botocore
 config = botocore.config.Config(read_timeout=900, connect_timeout=900, retries={"max_attempts": 1})
 session = boto3.Session()
-bedrock_runtime = session.client("bedrock-runtime", config=config, region_name='us-east-1')
+bedrock_runtime = session.client("bedrock-runtime", config=config, region_name='ap-south-1')
 
 
 class Analyticsfunction:
