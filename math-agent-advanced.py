@@ -112,15 +112,6 @@ def display_image(image_path):
     st.image(image_data, use_column_width=True)
     
 def extract_text_between_quotes(text):
-    """
-    Extracts the text between the double quotes from the given string.
-    
-    Args:
-        text (str): The input string containing the text to be extracted.
-        
-    Returns:
-        str: The extracted text between the double quotes.
-    """
     start = text.find('"')
     end = text.rfind('"')
     
