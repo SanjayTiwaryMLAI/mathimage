@@ -130,7 +130,8 @@ def extract_text_between_quotes(text):
     return text[start+1:end]
 
 
-question_prompt = '''Your task is only extract text of the question and answer from the image'''
+question_prompt = "Your task is to extract only the text of the question and answer from the image"
+
 image = st.file_uploader("UPLOAD A IMAGE")
 if image:
     st.write("Image uploaded successfully")
@@ -139,13 +140,14 @@ if image:
     output.close()
     display_image("file01.jpg") 
     response = invoke_model(question_prompt,"file01.jpg")
+    new_agent_prompt = f"Please solve the following problem and provide the solution in a detailed, step-by-step manner. Ensure each step is clearly explained, and include the final answer in bold. The explanation should be thorough enough for someone at a graduate level to understand the reasoning and methodology behind each step. Here's the problem /n/n {response}"
     #extract the text from response
-    extracted_text = extract_text_between_quotes(response)
+    #extracted_text = extract_text_between_quotes(response)
     st.write(response)
-    st.write(extracted_text)
+    #st.write(extracted_text)
     #add a button to trigger the function
     if st.button("Get Answer"):
-        st.write(get_agent_response(response))
+        st.write(get_agent_response(new_agent_prompt))
     
         
 prompt = st.chat_input("How can I help?")
