@@ -13,9 +13,9 @@ import time
 import streamlit as st
 
 import botocore
-config = botocore.config.Config(read_timeout=900, connect_timeout=900, retries={"max_attempts": 1})
+config = botocore.config.Config(read_timeout=900, connect_timeout=900, retries={"max_attempts": 2})
 session = boto3.Session()
-bedrock_runtime = session.client("bedrock-runtime", config=config, region_name='ap-south-1')
+bedrock_runtime = session.client("bedrock-runtime", config=config, region_name='us-west-2')
 
 
 class Analyticsfunction:
@@ -59,7 +59,8 @@ class Analyticsfunction:
 
 
         body = json.dumps(prompt_config)
-        modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+        # modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+        modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0"
         accept = "application/json"
         contentType = "application/json"
 
@@ -67,6 +68,40 @@ class Analyticsfunction:
         response = bedrock_runtime.invoke_model(body=body, modelId=modelId, accept=accept, contentType=contentType)
         response_body = json.loads(response.get("body").read())
         results = response_body.get("content")[0].get("text")
+        return results
+    
+    def call_claude_sonet_text_s35(self, question):
+        self.question = question
+        prompt_config = {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 3000,
+                "temperature": 0.2,
+                "top_k": 50,
+                "top_p": 0.9,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                        
+                            {"type": "text", 
+                             "text": question},
+                        ],
+                    }
+                ],
+            }
+
+
+        body = json.dumps(prompt_config)
+        # modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+        modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0"
+        accept = "application/json"
+        contentType = "application/json"
+
+
+        response = bedrock_runtime.invoke_model(body=body, modelId=modelId, accept=accept, contentType=contentType)
+        response_body = json.loads(response.get("body").read())
+        results = response_body.get("content")[0].get("text")
+        #out = display(Markdown(results))
         return results
     
     def call_claude_sonet_text(self, question):
@@ -92,6 +127,7 @@ class Analyticsfunction:
 
         body = json.dumps(prompt_config)
         modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+        # modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0"
         accept = "application/json"
         contentType = "application/json"
 
@@ -101,7 +137,6 @@ class Analyticsfunction:
         results = response_body.get("content")[0].get("text")
         #out = display(Markdown(results))
         return results
-    
 
     def claude2(self, question):
         self.question = question
@@ -234,7 +269,7 @@ class mathquestion(Analyticsfunction):
 
         body = json.dumps({"prompt": prompt})
         text = self.call_claude_sonet_text(body)
-        display(Markdown(text))
+        # display(Markdown(text))
         return text
     
 

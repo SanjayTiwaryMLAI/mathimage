@@ -1,2 +1,0 @@
-# mathimage
-mathimage

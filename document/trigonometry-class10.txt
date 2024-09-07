@@ -1,0 +1,66 @@
+# Trigonometry for Class 10
+
+Trigonometry is a branch of mathematics that studies the relationships between the sides and angles of triangles. It has numerous real-world applications in fields such as engineering, physics, and navigation. For Class 10 students, trigonometry forms a crucial foundation for more advanced mathematical concepts.
+
+## Key Concepts
+
+### 1. Trigonometric Ratios
+
+The three primary trigonometric ratios are:
+
+- Sine (sin) = Opposite / Hypotenuse
+- Cosine (cos) = Adjacent / Hypotenuse
+- Tangent (tan) = Opposite / Adjacent
+
+These ratios are often remembered using the mnemonic "SOH-CAH-TOA".
+
+### 2. Angles and Triangles
+
+- Right-angled triangles: One angle is 90 degrees
+- The sum of angles in a triangle is always 180 degrees
+- Pythagorean theorem: In a right-angled triangle, a² + b² = c², where c is the hypotenuse
+
+### 3. Trigonometric Identities
+
+Some important identities include:
+
+- sin²θ + cos²θ = 1
+- tan θ = sin θ / cos θ
+- cot θ = cos θ / sin θ
+
+### 4. Trigonometric Table
+
+Students should be familiar with the values of trigonometric ratios for standard angles (0°, 30°, 45°, 60°, 90°).
+
+## Problem-Solving Techniques
+
+1. **Identify the given information**: Determine what is known about the triangle or angle.
+2. **Choose the appropriate ratio**: Based on what's given and what needs to be found, select sin, cos, or tan.
+3. **Set up the equation**: Use the chosen ratio to create an equation.
+4. **Solve the equation**: Use algebra to solve for the unknown value.
+5. **Check the answer**: Ensure the solution makes sense in the context of the problem.
+
+## Common Applications
+
+1. Finding heights of tall structures
+2. Calculating distances that can't be measured directly
+3. Navigation in ships and aircraft
+4. Engineering and construction
+
+## Sample Problems
+
+1. A ladder 10 meters long leans against a vertical wall. If the ladder makes an angle of 60° with the ground, how high up the wall does the ladder reach?
+
+2. From the top of a lighthouse 80 meters high, the angle of depression to a ship is observed to be 30°. How far is the ship from the base of the lighthouse?
+
+3. A kite is flying at a height of 60 meters above the ground. The string makes an angle of 60° with the ground. Find the length of the string.
+
+## Tips for Students
+
+- Practice regularly with a variety of problems
+- Memorize the trigonometric table for standard angles
+- Understand the concepts rather than just memorizing formulas
+- Draw clear diagrams for each problem
+- Always include units in your final answer
+
+By mastering these concepts and practicing regularly, Class 10 students will build a strong foundation in trigonometry, preparing them for more advanced mathematical studies in the future.
