@@ -75,8 +75,8 @@ class Analyticsfunction:
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
                 "max_tokens": 3000,
-                "temperature": 0.2,
-                "top_k": 50,
+                "temperature": 0,
+                "top_k": 150,
                 "top_p": 0.9,
                 "messages": [
                     {
@@ -109,8 +109,8 @@ class Analyticsfunction:
         prompt_config = {
                 "anthropic_version": "bedrock-2023-05-31",
                 "max_tokens": 3000,
-                "temperature": 0.7,
-                "top_k": 50,
+                "temperature": 0,
+                "top_k": 150,
                 "top_p": 0.9,
                 "messages": [
                     {
