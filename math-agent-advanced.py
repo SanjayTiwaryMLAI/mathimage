@@ -147,38 +147,52 @@ def extract_text_between_quotes(text):
 question_prompt = "Your task is to extract only the text of the question and answer from the image, the image contain graduate level math images written in hand or print both "
 
 image = st.file_uploader("UPLOAD A IMAGE")
+
+        
 if image:
     st.write("Image uploaded successfully")
     output = open("file01.jpg", "wb")
     output.write(image.read())
     output.close()
     display_image("file01.jpg") 
-    response = invoke_model(question_prompt, "file01.jpg")
-    new_agent_prompt = f"Please solve the following problem and provide the solution in a detailed, step-by-step manner. Ensure each step is clearly explained, and include the final answer in bold. The explanation should be thorough enough for someone at a graduate level to understand the reasoning and methodology behind each step. Here's the problem:\n\n{response}"
-    st.write(response)
+
+    # Invoke the model to extract the math problem text from the image
+    response = invoke_model("Extract math problem", "file01.jpg")
+    
+    # Display the extracted text
+    st.write("Extracted Math Problem:")
+    response = st.text_area("You can edit the extracted problem before proceeding:", response)
+    
+    # Model selection and prompt for solution generation
+    model_choice = st.radio("Choose the model for solving the problem:", ("Sonnet 3.5", "Bedrock Agent"))
+
+    # Define a detailed solution prompt
+    new_agent_prompt = f"Please solve the following problem and provide the solution in a detailed, step-by-step manner. Ensure each step is clearly explained, and include the final answer in bold. Here's the problem:\n\n{response}"
+    
     prompt = f"""You are an advanced AI mathematics problem-solving agent specializing in graduate-level problem-solving. You communicate at a PhD level in mathematics. When presented with a problem, always start your response with "Thanks for the interesting problem! Here is my step-by-step solution:"
             Then, use a chain-of-thought (COT) approach to solve the problem, showing each step of your reasoning process in detail. Your response should be structured, with numbered steps and the final answer bolded. Additionally, aim to explain the concepts and justifications behind each step to demonstrate a deep understanding of the subject matter
             Provide a clear and easy-to-follow example to illustrate the desired format and level of detail expected in your response.
             Please solve the following problem and provide the solution in a detailed, step-by-step manner. Ensure each step is clearly explained, and include the final answer in bold. The explanation should be thorough enough for someone at a graduate level to understand the reasoning and methodology behind each step. Here's the problem:\n\n{response}"""
 
-    # Add radio buttons for selecting the model
-    model_choice = st.radio("Choose the model for the answer:", ("Sonnet3.5", "Bedrock Agent"))
-
-    # Add a button to trigger the function
-    if st.button("Get Answer"):
-        if model_choice == "Sonnet3.5":
-            st.write("Anthropic Sonnet3.5 Response:")
-            st.write(math.call_claude_sonet_text_s35(prompt))
+    # Button to process the problem
+    if st.button("Solve the problem"):
+        if model_choice == "Sonnet 3.5":
+            st.write("Anthropic Sonnet 3.5 Response:")
+            st.write("Fetching response from Sonnet 3.5...")
+            st.write(math.call_claude_sonet_text_s35(prompt))  # Simulate response from Sonnet 3.5
         else:
             st.write("Bedrock Agent Response:")
-            st.write(get_agent_response(new_agent_prompt))
-                    
+            st.write("Fetching response from Bedrock Agent...")
+            st.write(get_agent_response(new_agent_prompt))  # Simulate response from Bedrock Agent
+
+# Chat input for further interaction
 prompt = st.chat_input("How can I help?")
 if prompt:
-    # Concatenate chat history with the current user input
+    # Display user input
     with st.chat_message("user"):
         st.markdown(f"**{prompt}**")
     
+    # Display AI assistant response
     with st.chat_message("assistant"):
         response = get_agent_response(prompt)
         st.markdown(f"{response}")
