@@ -1,40 +1,45 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 
 # Set up the plot
 plt.figure(figsize=(10, 8))
 sns.set_style("whitegrid")
 
-# Create the triangle
-base = 8
-height = 6
-triangle = Polygon([(0, 0), (base, 0), (base, height)], closed=True, facecolor='lightblue', edgecolor='blue')
+# Create the parallelogram
+parallelogram = Polygon([(0, 0), (10, 0), (12, 8), (2, 8)], facecolor='lightblue', edgecolor='blue', alpha=0.7)
 
-# Set up the axes
+# Add the parallelogram to the plot
 ax = plt.gca()
-ax.add_patch(triangle)
-ax.set_xlim(-1, 10)
-ax.set_ylim(-1, 8)
+ax.add_patch(parallelogram)
 
-# Add labels and annotations
-ax.text(4, -0.5, f'Base = {base} cm', ha='center', va='center', fontsize=12)
-ax.text(8.5, 3, f'Height = {height} cm', ha='left', va='center', fontsize=12, rotation=90)
-ax.text(4, 2, f'Area = 1/2 \u00d7 base \u00d7 height\\n= 1/2 \u00d7 {base} \u00d7 {height}\\n= {base*height/2} cm\u00b2',
-        ha='center', va='center', fontsize=12, bbox=dict(facecolor='white', edgecolor='gray', alpha=0.8))
-
-# Add arrow for height
-ax.annotate('', xy=(base, height), xytext=(base, 0), arrowprops=dict(arrowstyle='<->', color='red'))
-
-# Set title
-plt.title('Triangle Area Calculation', fontsize=16, fontweight='bold')
+# Set axis limits
+ax.set_xlim(-1, 13)
+ax.set_ylim(-1, 9)
 
 # Remove axis ticks
 ax.set_xticks([])
 ax.set_yticks([])
 
-# Save the plot
+# Add labels and annotations
+plt.text(5, -0.5, '10 cm', ha='center', va='top')
+plt.text(-0.5, 4, '8 cm', ha='right', va='center', rotation=90)
+plt.text(11, 4, '8 cm', ha='left', va='center', rotation=90)
+plt.text(6, 8.5, 'Parallelogram', ha='center', va='bottom', fontweight='bold')
+
+# Add arrow for height
+plt.arrow(10, 0, 0, 8, width=0.1, head_width=0.3, head_length=0.3, fc='red', ec='red', length_includes_head=True)
+
+# Add formula and calculation
+plt.text(13, 4, 'Area = base \u00d7 height\\n= 10 cm \u00d7 8 cm\\n= 80 cm\u00b2', ha='left', va='center', bbox=dict(facecolor='white', edgecolor='gray', alpha=0.7))
+
+# Set title
+plt.title('Area of a Parallelogram', fontsize=16, fontweight='bold')
+
+# Save the plot as an image
 plt.savefig('image.jpg', dpi=100, bbox_inches='tight')
-plt.close()
+
+# Show the plot (optional, for preview)
+plt.show()
 

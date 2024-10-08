@@ -166,16 +166,15 @@ if (
         return text
         
     def create_image(question):
-        text2 = create_image1(question)
+        text = create_image1(question)
        
+        prompt2 = f'''Human: Your task is Check the correctness and review the the Python code /n {text} and make sure no library import is missing,rewrite the updated code but don't change the important section of the code.
+                Assistant:'''
+                
+        body2 = json.dumps({"prompt": prompt2})
+        text2 = math.call_claude_sonet_text(body2)
         
-        # prompt2 = f'''Human:check the correctness of python code {text}, and rewrite the update code but dont change the important section of code.
-        #             Assistant:'''
-        
-        # body2 = json.dumps({"prompt": prompt2})
-        # text2 = math.call_claude_sonet_text(body2)
-        
-        # st.write(text2)
+        st.write(text2)
         
         image_name = "image.jpg"
         output_file = "main.py"

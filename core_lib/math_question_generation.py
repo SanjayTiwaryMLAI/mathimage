@@ -10,7 +10,7 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import time
-import streamlit as st
+
 
 import botocore
 config = botocore.config.Config(read_timeout=900, connect_timeout=900, retries={"max_attempts": 2})

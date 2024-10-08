@@ -100,10 +100,7 @@ claude3 = obj.call_claude_sonet
 def invoke_model(question, image):
     base64_image = convert_image(image)
     response = claude3(base64_image,question)
-    
-    
-    # st.download_button(data=response, label="download")
-    
+
     return response
             
     
@@ -121,28 +118,6 @@ def extract_text_between_quotes(text):
         return ""
     
     return text[start+1:end]
-
-
-# question_prompt = "Your task is to extract only the text of the question and answer from the image, the image contain graduate level math images wwritten in hand or print both "
-
-# image = st.file_uploader("UPLOAD A IMAGE")
-# if image:
-#     st.write("Image uploaded successfully")
-#     output = open("file01.jpg", "wb")
-#     output.write(image.read())
-#     output.close()
-#     display_image("file01.jpg") 
-#     response = invoke_model(question_prompt,"file01.jpg")
-#     new_agent_prompt = f"Please solve the following problem and provide the solution in a detailed, step-by-step manner. Ensure each step is clearly explained, and include the final answer in bold. The explanation should be thorough enough for someone at a graduate level to understand the reasoning and methodology behind each step. Here's the problem /n/n {response}"
-#     #extract the text from response
-#     #extracted_text = extract_text_between_quotes(response)
-#     st.write(response)
-#     #st.write(extracted_text)
-#     #add a button to trigger the function
-#     if st.button("Get Answer"):
-#         st.write(math.call_claude_sonet_text_s35(new_agent_prompt))
-#         st.write(get_agent_response(new_agent_prompt))
-    
 
 question_prompt = "Your task is to extract only the text of the question and answer from the image, the image contain graduate level math images written in hand or print both "
 
