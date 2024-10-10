@@ -1,45 +1,52 @@
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
+import seaborn as sns
+from mpl_toolkits.mplot3d import Axes3D
 
-# Set up the plot
-plt.figure(figsize=(10, 8))
-sns.set_style("whitegrid")
+# Set seaborn style
+sns.set(style="whitegrid")
 
-# Create the parallelogram
-parallelogram = Polygon([(0, 0), (10, 0), (12, 8), (2, 8)], facecolor='lightblue', edgecolor='blue', alpha=0.7)
+# Create figure and 3D axis
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
 
-# Add the parallelogram to the plot
-ax = plt.gca()
-ax.add_patch(parallelogram)
+# Define vertices
+A = np.array([1, 2, 3])
+B = np.array([2, 3, 1])
+C = np.array([3, 1, 2])
 
-# Set axis limits
-ax.set_xlim(-1, 13)
-ax.set_ylim(-1, 9)
+# Plot vertices
+ax.scatter(A[0], A[1], A[2], c='r', s=100, label='A (α, β, γ)')
+ax.scatter(B[0], B[1], B[2], c='g', s=100, label='B (β, γ, α)')
+ax.scatter(C[0], C[1], C[2], c='b', s=100, label='C (γ, α, β)')
 
-# Remove axis ticks
-ax.set_xticks([])
-ax.set_yticks([])
+# Plot edges
+ax.plot([A[0], B[0]], [A[1], B[1]], [A[2], B[2]], 'k-', linewidth=2)
+ax.plot([B[0], C[0]], [B[1], C[1]], [B[2], C[2]], 'k-', linewidth=2)
+ax.plot([C[0], A[0]], [C[1], A[1]], [C[2], A[2]], 'k-', linewidth=2)
 
-# Add labels and annotations
-plt.text(5, -0.5, '10 cm', ha='center', va='top')
-plt.text(-0.5, 4, '8 cm', ha='right', va='center', rotation=90)
-plt.text(11, 4, '8 cm', ha='left', va='center', rotation=90)
-plt.text(6, 8.5, 'Parallelogram', ha='center', va='bottom', fontweight='bold')
+# Label vertices
+ax.text(A[0], A[1], A[2], 'A', fontsize=12)
+ax.text(B[0], B[1], B[2], 'B', fontsize=12)
+ax.text(C[0], C[1], C[2], 'C', fontsize=12)
 
-# Add arrow for height
-plt.arrow(10, 0, 0, 8, width=0.1, head_width=0.3, head_length=0.3, fc='red', ec='red', length_includes_head=True)
-
-# Add formula and calculation
-plt.text(13, 4, 'Area = base \u00d7 height\\n= 10 cm \u00d7 8 cm\\n= 80 cm\u00b2', ha='left', va='center', bbox=dict(facecolor='white', edgecolor='gray', alpha=0.7))
+# Set axis labels
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
 
 # Set title
-plt.title('Area of a Parallelogram', fontsize=16, fontweight='bold')
+ax.set_title('Triangle ABC with Position Vectors\nA(αi+βj+γk), B(βi+γj+αk), C(γi+αj+βk)', fontsize=14)
 
-# Save the plot as an image
+# Add legend
+ax.legend()
+
+# Adjust plot to fit 80% of the area
+plt.tight_layout(rect=[0, 0, 0.8, 0.8])
+
+# Save the figure
 plt.savefig('image.jpg', dpi=100, bbox_inches='tight')
 
-# Show the plot (optional, for preview)
+# Show the plot (optional)
 plt.show()
 

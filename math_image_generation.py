@@ -1,3 +1,11 @@
+# importing required modules 
+
+import streamlit as st
+
+st.set_page_config(page_title="Math Image Generation Demo using LLM Chaining", layout="wide")
+st.title(" 🔗 Math Image Generation Demo using LLM Chaining")
+st.write("🧑 Developed by Sanjay- AWS")
+  
 import boto3
 import os
 import json
@@ -6,14 +14,14 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from core_lib.math_question_generation import Analyticsfunction, mathquestion
 from PIL import Image
-import streamlit as st
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 s3 = boto3.client('s3')
 
 # Global variable to store the summary
 summary = ""
-
+image_name = "image.jpg"
+output_file = "main.py"
 # Define table names
 table_name_math_question = 'mathquestion_image'
 table_name_question_answer = 'question_answer'
@@ -137,7 +145,7 @@ def create_image1(question):
     
 
     body = json.dumps({"prompt": prompt})
-    text = math.call_claude_sonet_text_35(body)
+    text = math.call_claude_sonet_text_s35(body)
     
     
     return text
@@ -145,22 +153,23 @@ def create_image1(question):
 def create_image(question):
     text = create_image1(question)
     
+    # prompt2 = f'''Human:check the correctness of python code {text}, and rewrite the update code but dont change the important section of code.
+                #Assistant:'''
     prompt2 = f'''Human: Your task is Check the correctness and review the the Python code /n {text} and make sure no library import is missing,rewrite the updated code but don't change the important section of the code.
-            Assistant:'''
-            
+                Assistant:'''
     body2 = json.dumps({"prompt": prompt2})
     text2 = math.call_claude_sonet_text(body2)
     
-    st.write(text2)
+    # st.write(text2)
     
     image_name = "image.jpg"
     output_file = "main.py"
-    new = math.extract_python_code(text2, output_file)
+    math.extract_python_code(text2, output_file)
     with open("main.py", "r") as file:
         script_contents = file.read()
 
     # Display the script contents
-    st.write("Contents of script.py:")
+    # st.write("Contents of script.py:")
     st.code(script_contents, language="python")
     
     # time.sleep(3)
@@ -228,7 +237,7 @@ ask_question_button = st.button("Ask Question")
 if ask_question_button:
 
     img = create_image(question)
-    st.image(img, width=400)
+    st.image(img, width=500)
     
     
 
@@ -310,7 +319,7 @@ if input_text is not None:
             #         time.sleep(1)
             st.write(f"**Question ({i})**: {translate(question['question'], target_lang=selected_lang)}")
             img = create_image(question["question"])
-            st.image(img, width=400)
+            st.image(img, width= 500)
             # time.sleep(4)
             st.write(f"**Options**: {question['options']}")
             st.write(f"**Answer**: {question['answer']} ")
