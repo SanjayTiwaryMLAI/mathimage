@@ -2,7 +2,7 @@
 import os
 import time
 import streamlit as st
-from langchain.callbacks import StreamlitCallbackHandler
+# from langchain.callbacks import StreamlitCallbackHandler
 import boto3
 import logging
 import uuid
