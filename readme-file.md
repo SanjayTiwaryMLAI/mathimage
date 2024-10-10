@@ -27,7 +27,7 @@ pip install -r requirements.txt
 Run the Streamlit app:
 
 ```
-streamlit run app.py
+streamlit run math_image_generation.py
 ```
 
 ## Configuration
