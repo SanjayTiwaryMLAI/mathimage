@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from core_lib.math_question_generation import Analyticsfunction, mathquestion
 from PIL import Image
+import streamlit as st
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 s3 = boto3.client('s3')
